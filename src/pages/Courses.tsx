@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Clock, Users, Star, BookOpen, Play, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,6 +13,7 @@ import CourseVideos from '@/components/CourseVideos';
 const Courses = () => {
   const { user, signInWithGoogle } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [expandedCourse, setExpandedCourse] = useState<number | null>(null);
 
@@ -81,19 +82,16 @@ const Courses = () => {
 
   const handleEnrollClick = async () => {
     if (user) {
-      toast({
-        title: "Você já está logado!",
-        description: "Redirecionando para a área do aluno...",
-      });
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 1500);
+      // User is already logged in, navigate to dashboard
+      navigate('/dashboard');
       return;
     }
 
+    // User not logged in, initiate login with return URL
     setLoading(true);
     try {
-      await signInWithGoogle();
+      await signInWithGoogle('/dashboard');
+      // The redirect will be handled by AuthContext after successful login
     } catch (error) {
       console.error('Error during Google sign in:', error);
       toast({

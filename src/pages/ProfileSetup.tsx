@@ -121,8 +121,12 @@ const ProfileSetup = () => {
         description: "Suas informações foram salvas. Redirecionando...",
       });
       
+      // Check if there's a stored redirect URL
+      const afterProfileSetup = localStorage.getItem('afterProfileSetup');
+      localStorage.removeItem('afterProfileSetup'); // Clean up
+      
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate(afterProfileSetup || '/dashboard');
       }, 1500);
     }
 

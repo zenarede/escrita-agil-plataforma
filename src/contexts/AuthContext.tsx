@@ -7,7 +7,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signInWithGoogle: () => Promise<void>;
+  signInWithGoogle: (returnTo?: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -76,14 +76,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         profile.study_interests?.length > 0 && 
         profile.qualifications?.length > 0;
       
-      // Only redirect from login page
-      if (window.location.pathname === '/login') {
+      // Get stored return URL or default destinations
+      const returnTo = localStorage.getItem('authReturnTo');
+      localStorage.removeItem('authReturnTo'); // Clean up
+      
+      // Only redirect from login page or if we have a stored return URL
+      if (window.location.pathname === '/login' || returnTo) {
         if (!isProfileComplete) {
           console.log('Profile incomplete, redirecting to profile setup');
+          localStorage.setItem('afterProfileSetup', returnTo || '/dashboard');
           window.location.href = '/profile-setup';
         } else {
-          console.log('Profile complete, redirecting to dashboard');
-          window.location.href = '/dashboard';
+          console.log('Profile complete, redirecting to:', returnTo || '/dashboard');
+          window.location.href = returnTo || '/dashboard';
         }
       }
     } catch (error) {
@@ -91,8 +96,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = async (returnTo?: string) => {
     console.log('Initiating Google sign in');
+    
+    // Store the return URL for after login
+    if (returnTo) {
+      localStorage.setItem('authReturnTo', returnTo);
+    }
     
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
