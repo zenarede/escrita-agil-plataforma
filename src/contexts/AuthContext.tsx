@@ -29,43 +29,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     console.log('Setting up auth state listener');
     
-    // Set up auth state listener
+    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         console.log('Auth state changed:', event, session);
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
         
-        // Handle successful login - redirect to profile setup for new users
+        // Handle successful login - defer database calls to prevent deadlock
         if (event === 'SIGNED_IN' && session?.user) {
-          console.log('User signed in, checking profile completion');
+          console.log('User signed in');
           
-          // Check if user has completed profile
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('cpf, phone, study_interests, qualifications')
-            .eq('id', session.user.id)
-            .single();
-          
-          const isProfileComplete = profile && 
-            profile.cpf && 
-            profile.phone && 
-            profile.study_interests?.length > 0 && 
-            profile.qualifications?.length > 0;
-          
-          if (!isProfileComplete && window.location.pathname === '/login') {
-            console.log('Profile incomplete, redirecting to profile setup');
-            window.location.href = '/profile-setup';
-          } else if (isProfileComplete && window.location.pathname === '/login') {
-            console.log('Profile complete, redirecting to dashboard');
-            window.location.href = '/dashboard';
-          }
+          // Use setTimeout to defer Supabase calls and prevent deadlock
+          setTimeout(() => {
+            checkProfileAndRedirect(session.user);
+          }, 0);
         }
       }
     );
 
-    // Check for existing session
+    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       console.log('Initial session check:', session);
       setSession(session);
@@ -75,6 +59,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const checkProfileAndRedirect = async (user: any) => {
+    try {
+      console.log('Checking profile completion for user:', user.id);
+      
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('cpf, phone, study_interests, qualifications')
+        .eq('id', user.id)
+        .single();
+      
+      const isProfileComplete = profile && 
+        profile.cpf && 
+        profile.phone && 
+        profile.study_interests?.length > 0 && 
+        profile.qualifications?.length > 0;
+      
+      // Only redirect from login page
+      if (window.location.pathname === '/login') {
+        if (!isProfileComplete) {
+          console.log('Profile incomplete, redirecting to profile setup');
+          window.location.href = '/profile-setup';
+        } else {
+          console.log('Profile complete, redirecting to dashboard');
+          window.location.href = '/dashboard';
+        }
+      }
+    } catch (error) {
+      console.error('Error checking profile:', error);
+    }
+  };
 
   const signInWithGoogle = async () => {
     console.log('Initiating Google sign in');
