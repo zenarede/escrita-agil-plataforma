@@ -166,7 +166,10 @@ const Dashboard = () => {
                   <p className="text-sm text-gray-500 mb-4">
                     Você ainda não tem acesso a nenhum curso. Adquira um curso para começar!
                   </p>
-                  <Button onClick={() => document.querySelector('[data-value="available"]')?.click()}>
+                  <Button onClick={() => {
+                    const tab = document.querySelector('[data-value="available"]') as HTMLButtonElement;
+                    tab?.click();
+                  }}>
                     Ver Cursos Disponíveis
                   </Button>
                 </CardContent>

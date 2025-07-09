@@ -12,6 +12,11 @@ export interface UserProfile {
   cursos_liberados: string[] | null;
   created_at: string | null;
   updated_at: string | null;
+  cpf: string | null;
+  phone: string | null;
+  study_interests: string[] | null;
+  education_level: string | null;
+  qualifications: string[] | null;
 }
 
 export const useUserAccess = () => {
