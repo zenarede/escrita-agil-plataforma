@@ -17,6 +17,7 @@ import Dashboard from "./pages/Dashboard";
 import ProfileSetup from "./pages/ProfileSetup";
 import Welcome from "./pages/Welcome";
 import FAQ from "./pages/FAQ";
+import Purchase from "./pages/Purchase";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
                 <Route path="/institucional" element={<Institutional />} />
                 <Route path="/cursos" element={<Courses />} />
                 <Route path="/curso/:courseSlug" element={<CourseDetails />} />
+                <Route path="/comprar/:courseSlug" element={<Purchase />} />
                 <Route path="/contato" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
@@ -55,3 +57,4 @@ const App = () => (
 );
 
 export default App;
+
