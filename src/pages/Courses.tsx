@@ -1,272 +1,201 @@
 
 import { useState } from 'react';
-import { Search, Filter, Target, Briefcase, GraduationCap, Building } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { Clock, Users, Star, BookOpen, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import CourseCard from '@/components/CourseCard';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 
 const Courses = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [sortBy, setSortBy] = useState('popular');
-
-  const categories = [
-    { id: 'all', name: 'Todos os Cursos', icon: null },
-    { id: 'technology', name: 'Tecnologia', icon: Target },
-    { id: 'finance', name: 'Financeiro', icon: Briefcase },
-    { id: 'education', name: 'Educação', icon: GraduationCap },
-    { id: 'construction', name: 'Construção Civil', icon: Building },
-  ];
+  const { user, signInWithGoogle } = useAuth();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
 
   const courses = [
     {
+      id: 1,
       title: 'TCC em 30 Dias - Método Ágil',
-      description: 'Aprenda a estruturar e escrever seu TCC de forma eficiente e rápida com nossa metodologia exclusiva. Inclui templates, cronograma e mentorias.',
       instructor: 'Dr. Ana Silva',
-      duration: '20h',
-      students: 150,
+      description: 'Aprenda a escrever seu TCC de forma organizada e eficiente em apenas 30 dias usando nossa metodologia comprovada.',
+      price: 'R$ 297,00',
+      originalPrice: 'R$ 497,00',
+      duration: '4 semanas',
+      students: 2847,
       rating: 4.9,
-      price: 'R$ 297',
-      category: 'Geral',
-      categoryId: 'all'
+      level: 'Intermediário',
+      category: 'TCC',
+      image: '/placeholder.svg'
     },
     {
+      id: 2,
       title: 'Método RAC - Escrita Científica',
-      description: 'Destrave sua escrita em menos de 6 horas com técnicas comprovadas de produtividade acadêmica e organização de ideias.',
       instructor: 'Prof. Carlos Santos',
-      duration: '6h',
-      students: 200,
-      rating: 5.0,
-      price: 'R$ 97',
-      category: 'Bestseller',
-      categoryId: 'all'
-    },
-    {
-      title: 'Documentação Técnica para Devs',
-      description: 'Aprenda a criar documentações técnicas claras, APIs, manuais de usuário e relatórios de projeto para o mercado tech.',
-      instructor: 'Eng. Pedro Lima',
-      duration: '12h',
-      students: 85,
-      rating: 4.7,
-      price: 'R$ 197',
-      category: 'Tecnologia',
-      categoryId: 'technology'
-    },
-    {
-      title: 'Relatórios Financeiros Eficazes',
-      description: 'Elaboração de análises financeiras, relatórios de resultados e comunicação executiva para o setor financeiro.',
-      instructor: 'Dra. Laura Costa',
-      duration: '15h',
-      students: 90,
+      description: 'Domine a técnica RAC (Resumir, Analisar, Criticar) para escrever textos científicos de qualidade.',
+      price: 'R$ 197,00',
+      originalPrice: 'R$ 347,00',
+      duration: '2 semanas',
+      students: 1523,
       rating: 4.8,
-      price: 'R$ 247',
-      category: 'Financeiro',
-      categoryId: 'finance'
+      level: 'Básico',
+      category: 'Metodologia',
+      image: '/placeholder.svg'
     },
     {
-      title: 'Metodologias de Ensino e Escrita',
-      description: 'Desenvolvimento de materiais didáticos, planos de aula e comunicação acadêmica para educadores.',
-      instructor: 'Prof. Marina Torres',
-      duration: '18h',
-      students: 120,
-      rating: 4.9,
-      price: 'R$ 197',
-      category: 'Educação',
-      categoryId: 'education'
-    },
-    {
-      title: 'Projetos Executivos e Relatórios Técnicos',
-      description: 'Elaboração de documentação técnica para construção civil, laudos, relatórios e projetos executivos.',
-      instructor: 'Eng. Roberto Silva',
-      duration: '16h',
-      students: 70,
-      rating: 4.6,
-      price: 'R$ 227',
-      category: 'Construção',
-      categoryId: 'construction'
-    },
-    {
+      id: 3,
       title: 'Preparação para Mestrado',
-      description: 'Guia completo para processo seletivo de mestrado, incluindo projeto de pesquisa, carta de motivação e currículo acadêmico.',
       instructor: 'Dra. Maria Oliveira',
-      duration: '15h',
-      students: 80,
-      rating: 4.8,
-      price: 'R$ 197',
-      category: 'Acadêmico',
-      categoryId: 'all'
-    },
-    {
-      title: 'Escrita para Publicações Científicas',
-      description: 'Como escrever artigos científicos, submeter para revistas e aumentar suas chances de publicação em periódicos de impacto.',
-      instructor: 'Dr. João Mendes',
-      duration: '22h',
-      students: 60,
+      description: 'Prepare-se completamente para ingressar no mestrado: projeto de pesquisa, seleção e muito mais.',
+      price: 'R$ 397,00',
+      originalPrice: 'R$ 597,00',
+      duration: '6 semanas',
+      students: 987,
       rating: 4.9,
-      price: 'R$ 347',
-      category: 'Avançado',
-      categoryId: 'all'
+      level: 'Avançado',
+      category: 'Pós-graduação',
+      image: '/placeholder.svg'
     },
     {
-      title: 'Tese de Doutorado: Estrutura e Metodologia',
-      description: 'Orientações completas para estruturação, escrita e defesa de tese de doutorado, com acompanhamento personalizado.',
-      instructor: 'Dra. Isabel Ferreira',
-      duration: '30h',
-      students: 45,
-      rating: 5.0,
-      price: 'R$ 497',
-      category: 'Avançado',
-      categoryId: 'all'
+      id: 4,
+      title: 'Artigos Científicos de Impacto',
+      instructor: 'Dr. Roberto Lima',
+      description: 'Aprenda a escrever e publicar artigos científicos em revistas de alto impacto.',
+      price: 'R$ 347,00',
+      originalPrice: 'R$ 497,00',
+      duration: '5 semanas',
+      students: 756,
+      rating: 4.7,
+      level: 'Avançado',
+      category: 'Publicação',
+      image: '/placeholder.svg'
     }
   ];
 
-  const filteredCourses = courses.filter(course => {
-    const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         course.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || course.categoryId === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
-
-  const sortedCourses = [...filteredCourses].sort((a, b) => {
-    switch (sortBy) {
-      case 'price-low':
-        return parseInt(a.price.replace(/\D/g, '')) - parseInt(b.price.replace(/\D/g, ''));
-      case 'price-high':
-        return parseInt(b.price.replace(/\D/g, '')) - parseInt(a.price.replace(/\D/g, ''));
-      case 'rating':
-        return b.rating - a.rating;
-      case 'students':
-        return b.students - a.students;
-      default:
-        return b.students - a.students; // popular = mais estudantes
+  const handleEnrollClick = async () => {
+    if (user) {
+      toast({
+        title: "Você já está logado!",
+        description: "Redirecionando para a área do aluno...",
+      });
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 1500);
+      return;
     }
-  });
+
+    setLoading(true);
+    try {
+      await signInWithGoogle();
+    } catch (error) {
+      console.error('Error during Google sign in:', error);
+      toast({
+        title: "Erro no login",
+        description: "Ocorreu um erro ao tentar fazer login. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen pt-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Nossos Cursos
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Escolha entre mais de 20 cursos especializados e transforme sua escrita acadêmica e profissional
-          </p>
-        </div>
-
-        {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Buscar cursos..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-
-            {/* Category Filter */}
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger>
-                <SelectValue placeholder="Categoria" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
-                    {category.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            {/* Sort */}
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger>
-                <SelectValue placeholder="Ordenar por" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="popular">Mais Popular</SelectItem>
-                <SelectItem value="rating">Melhor Avaliação</SelectItem>
-                <SelectItem value="price-low">Menor Preço</SelectItem>
-                <SelectItem value="price-high">Maior Preço</SelectItem>
-                <SelectItem value="students">Mais Estudantes</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Clear Filters */}
-            <Button 
-              variant="outline" 
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedCategory('all');
-                setSortBy('popular');
-              }}
-            >
-              <Filter className="h-4 w-4 mr-2" />
-              Limpar Filtros
-            </Button>
-          </div>
-        </div>
-
-        {/* Category Badges */}
-        <div className="flex flex-wrap gap-2 mb-8">
-          {categories.map((category) => (
-            <Badge
-              key={category.id}
-              variant={selectedCategory === category.id ? "default" : "secondary"}
-              className="cursor-pointer hover:bg-blue-100"
-              onClick={() => setSelectedCategory(category.id)}
-            >
-              {category.icon && <category.icon className="h-3 w-3 mr-1" />}
-              {category.name}
-            </Badge>
-          ))}
-        </div>
-
-        {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-gray-600">
-            Mostrando {sortedCourses.length} de {courses.length} cursos
+            Cursos práticos e eficazes para acelerar sua jornada acadêmica e científica
           </p>
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {sortedCourses.map((course, index) => (
-            <CourseCard key={index} {...course} />
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          {courses.map((course) => (
+            <Card key={course.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="aspect-video bg-gradient-to-br from-blue-600 to-blue-800 relative">
+                <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                  <Play className="h-16 w-16 text-white" />
+                </div>
+                <Badge className="absolute top-4 left-4 bg-yellow-500 text-yellow-900">
+                  {course.category}
+                </Badge>
+              </div>
+              
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <CardTitle className="text-xl line-clamp-2">{course.title}</CardTitle>
+                  <Badge variant="outline">{course.level}</Badge>
+                </div>
+                <p className="text-sm text-gray-600">{course.instructor}</p>
+              </CardHeader>
+              
+              <CardContent className="space-y-4">
+                <p className="text-gray-700 text-sm line-clamp-3">
+                  {course.description}
+                </p>
+                
+                <div className="flex items-center justify-between text-sm text-gray-600">
+                  <div className="flex items-center space-x-1">
+                    <Clock className="h-4 w-4" />
+                    <span>{course.duration}</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Users className="h-4 w-4" />
+                    <span>{course.students} alunos</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <span>{course.rating}</span>
+                  </div>
+                </div>
+                
+                <div className="border-t pt-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <span className="text-2xl font-bold text-blue-700">{course.price}</span>
+                      <span className="text-sm text-gray-500 line-through ml-2">{course.originalPrice}</span>
+                    </div>
+                  </div>
+                  
+                  <Button 
+                    onClick={handleEnrollClick}
+                    className="w-full bg-blue-700 hover:bg-blue-800"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <div className="flex items-center space-x-2">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        <span>Conectando...</span>
+                      </div>
+                    ) : (
+                      <>
+                        <BookOpen className="h-4 w-4 mr-2" />
+                        {user ? 'Acessar Curso' : 'Inscrever-se'}
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
-        {/* No Results */}
-        {sortedCourses.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
-              <Search className="h-16 w-16 mx-auto" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Nenhum curso encontrado
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Tente ajustar os filtros ou buscar por outros termos
-            </p>
-            <Button
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedCategory('all');
-              }}
-            >
-              Ver Todos os Cursos
-            </Button>
-          </div>
-        )}
+        {/* CTA Section */}
+        <div className="mt-16 text-center bg-blue-700 rounded-2xl p-12 text-white">
+          <h2 className="text-3xl font-bold mb-4">
+            Não encontrou o que procurava?
+          </h2>
+          <p className="text-xl mb-8 text-blue-100">
+            Entre em contato conosco e descubra como podemos ajudar você
+          </p>
+          <Button size="lg" variant="secondary" className="bg-white text-blue-700 hover:bg-gray-100">
+            Falar com Especialista
+          </Button>
+        </div>
       </div>
     </div>
   );
