@@ -81,16 +81,24 @@ const Courses = () => {
   ];
 
   const handleEnrollClick = async () => {
+    console.log('==== handleEnrollClick chamado ====');
+    console.log('User:', user);
+    console.log('Current location:', window.location.pathname);
+    
     if (user) {
+      console.log('Usuário logado, navegando para dashboard');
       // User is already logged in, navigate to dashboard
       navigate('/dashboard');
       return;
     }
 
+    console.log('Usuário não logado, iniciando login');
     // User not logged in, initiate login with return URL
     setLoading(true);
     try {
+      console.log('Chamando signInWithGoogle com returnTo: /dashboard');
       await signInWithGoogle('/dashboard');
+      console.log('signInWithGoogle executado com sucesso');
       // The redirect will be handled by AuthContext after successful login
     } catch (error) {
       console.error('Error during Google sign in:', error);
