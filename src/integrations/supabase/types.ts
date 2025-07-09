@@ -14,40 +14,82 @@ export type Database = {
   }
   public: {
     Tables: {
+      course_videos: {
+        Row: {
+          course_slug: string
+          created_at: string | null
+          description: string | null
+          duration_minutes: number | null
+          id: string
+          order_index: number | null
+          title: string
+          upload_date: string | null
+          video_url: string
+        }
+        Insert: {
+          course_slug: string
+          created_at?: string | null
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string
+          order_index?: number | null
+          title: string
+          upload_date?: string | null
+          video_url: string
+        }
+        Update: {
+          course_slug?: string
+          created_at?: string | null
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string
+          order_index?: number | null
+          title?: string
+          upload_date?: string | null
+          video_url?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           cpf: string | null
           created_at: string | null
+          cursos_liberados: string[] | null
           education_level: string | null
           email: string | null
           full_name: string | null
           id: string
           phone: string | null
           qualifications: string[] | null
+          status: string | null
           study_interests: string[] | null
           updated_at: string | null
         }
         Insert: {
           cpf?: string | null
           created_at?: string | null
+          cursos_liberados?: string[] | null
           education_level?: string | null
           email?: string | null
           full_name?: string | null
           id: string
           phone?: string | null
           qualifications?: string[] | null
+          status?: string | null
           study_interests?: string[] | null
           updated_at?: string | null
         }
         Update: {
           cpf?: string | null
           created_at?: string | null
+          cursos_liberados?: string[] | null
           education_level?: string | null
           email?: string | null
           full_name?: string | null
           id?: string
           phone?: string | null
           qualifications?: string[] | null
+          status?: string | null
           study_interests?: string[] | null
           updated_at?: string | null
         }

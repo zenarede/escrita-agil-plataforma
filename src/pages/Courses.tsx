@@ -1,21 +1,24 @@
-
 import { useState } from 'react';
-import { Clock, Users, Star, BookOpen, Play } from 'lucide-react';
+import { Clock, Users, Star, BookOpen, Play, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import CourseVideos from '@/components/CourseVideos';
 
 const Courses = () => {
   const { user, signInWithGoogle } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [expandedCourse, setExpandedCourse] = useState<number | null>(null);
 
   const courses = [
     {
       id: 1,
       title: 'TCC em 30 Dias - Método Ágil',
+      slug: 'tcc-em-30-dias-metodo-agil',
       instructor: 'Dr. Ana Silva',
       description: 'Aprenda a escrever seu TCC de forma organizada e eficiente em apenas 30 dias usando nossa metodologia comprovada.',
       price: 'R$ 297,00',
@@ -30,6 +33,7 @@ const Courses = () => {
     {
       id: 2,
       title: 'Método RAC - Escrita Científica',
+      slug: 'metodo-rac-escrita-cientifica',
       instructor: 'Prof. Carlos Santos',
       description: 'Domine a técnica RAC (Resumir, Analisar, Criticar) para escrever textos científicos de qualidade.',
       price: 'R$ 197,00',
@@ -44,6 +48,7 @@ const Courses = () => {
     {
       id: 3,
       title: 'Preparação para Mestrado',
+      slug: 'preparacao-para-mestrado',
       instructor: 'Dra. Maria Oliveira',
       description: 'Prepare-se completamente para ingressar no mestrado: projeto de pesquisa, seleção e muito mais.',
       price: 'R$ 397,00',
@@ -58,6 +63,7 @@ const Courses = () => {
     {
       id: 4,
       title: 'Artigos Científicos de Impacto',
+      slug: 'artigos-cientificos-de-impacto',
       instructor: 'Dr. Roberto Lima',
       description: 'Aprenda a escrever e publicar artigos científicos em revistas de alto impacto.',
       price: 'R$ 347,00',
@@ -98,6 +104,10 @@ const Courses = () => {
     }
   };
 
+  const toggleCourseContent = (courseId: number) => {
+    setExpandedCourse(expandedCourse === courseId ? null : courseId);
+  };
+
   return (
     <div className="min-h-screen pt-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -113,74 +123,96 @@ const Courses = () => {
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-1 gap-8">
           {courses.map((course) => (
-            <Card key={course.id} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="aspect-video bg-gradient-to-br from-blue-600 to-blue-800 relative">
-                <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                  <Play className="h-16 w-16 text-white" />
-                </div>
-                <Badge className="absolute top-4 left-4 bg-yellow-500 text-yellow-900">
-                  {course.category}
-                </Badge>
-              </div>
-              
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <CardTitle className="text-xl line-clamp-2">{course.title}</CardTitle>
-                  <Badge variant="outline">{course.level}</Badge>
-                </div>
-                <p className="text-sm text-gray-600">{course.instructor}</p>
-              </CardHeader>
-              
-              <CardContent className="space-y-4">
-                <p className="text-gray-700 text-sm line-clamp-3">
-                  {course.description}
-                </p>
-                
-                <div className="flex items-center justify-between text-sm text-gray-600">
-                  <div className="flex items-center space-x-1">
-                    <Clock className="h-4 w-4" />
-                    <span>{course.duration}</span>
+            <div key={course.id} className="space-y-4">
+              <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                <div className="aspect-video bg-gradient-to-br from-blue-600 to-blue-800 relative">
+                  <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                    <Play className="h-16 w-16 text-white" />
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <Users className="h-4 w-4" />
-                    <span>{course.students} alunos</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span>{course.rating}</span>
-                  </div>
+                  <Badge className="absolute top-4 left-4 bg-yellow-500 text-yellow-900">
+                    {course.category}
+                  </Badge>
                 </div>
                 
-                <div className="border-t pt-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <span className="text-2xl font-bold text-blue-700">{course.price}</span>
-                      <span className="text-sm text-gray-500 line-through ml-2">{course.originalPrice}</span>
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <CardTitle className="text-xl line-clamp-2">{course.title}</CardTitle>
+                    <Badge variant="outline">{course.level}</Badge>
+                  </div>
+                  <p className="text-sm text-gray-600">{course.instructor}</p>
+                </CardHeader>
+                
+                <CardContent className="space-y-4">
+                  <p className="text-gray-700 text-sm line-clamp-3">
+                    {course.description}
+                  </p>
+                  
+                  <div className="flex items-center justify-between text-sm text-gray-600">
+                    <div className="flex items-center space-x-1">
+                      <Clock className="h-4 w-4" />
+                      <span>{course.duration}</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Users className="h-4 w-4" />
+                      <span>{course.students} alunos</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <span>{course.rating}</span>
                     </div>
                   </div>
                   
-                  <Button 
-                    onClick={handleEnrollClick}
-                    className="w-full bg-blue-700 hover:bg-blue-800"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <div className="flex items-center space-x-2">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                        <span>Conectando...</span>
+                  <div className="border-t pt-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <span className="text-2xl font-bold text-blue-700">{course.price}</span>
+                        <span className="text-sm text-gray-500 line-through ml-2">{course.originalPrice}</span>
                       </div>
-                    ) : (
-                      <>
-                        <BookOpen className="h-4 w-4 mr-2" />
-                        {user ? 'Acessar Curso' : 'Inscrever-se'}
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={handleEnrollClick}
+                        className="flex-1 bg-blue-700 hover:bg-blue-800"
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <div className="flex items-center space-x-2">
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                            <span>Conectando...</span>
+                          </div>
+                        ) : (
+                          <>
+                            <BookOpen className="h-4 w-4 mr-2" />
+                            {user ? 'Acessar Curso' : 'Inscrever-se'}
+                          </>
+                        )}
+                      </Button>
+                      <Collapsible open={expandedCourse === course.id} onOpenChange={() => toggleCourseContent(course.id)}>
+                        <CollapsibleTrigger asChild>
+                          <Button variant="outline" size="default">
+                            {expandedCourse === course.id ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                          </Button>
+                        </CollapsibleTrigger>
+                      </Collapsible>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Course Content */}
+              <Collapsible open={expandedCourse === course.id}>
+                <CollapsibleContent>
+                  <Card className="mt-4">
+                    <CardContent className="pt-6">
+                      <CourseVideos courseSlug={course.slug} courseTitle={course.title} />
+                    </CardContent>
+                  </Card>
+                </CollapsibleContent>
+              </Collapsible>
+            </div>
           ))}
         </div>
 

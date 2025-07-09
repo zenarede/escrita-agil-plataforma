@@ -37,9 +37,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         setLoading(false);
         
-        // Handle successful login
-        if (event === 'SIGNED_IN' && session?.user) {
-          console.log('User signed in, redirecting to welcome');
+        // Handle successful login - only redirect from login page
+        if (event === 'SIGNED_IN' && session?.user && window.location.pathname === '/login') {
+          console.log('User signed in from login page, redirecting to welcome');
           window.location.href = '/welcome';
         }
       }
