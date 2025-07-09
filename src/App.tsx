@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Institutional from "./pages/Institutional";
 import Courses from "./pages/Courses";
+import CourseDetails from "./pages/CourseDetails";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -34,6 +35,7 @@ const App = () => (
                 <Route path="/" element={<Home />} />
                 <Route path="/institucional" element={<Institutional />} />
                 <Route path="/cursos" element={<Courses />} />
+                <Route path="/curso/:courseSlug" element={<CourseDetails />} />
                 <Route path="/contato" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />

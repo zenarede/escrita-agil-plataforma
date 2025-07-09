@@ -37,10 +37,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         setLoading(false);
         
-        // Handle successful login - only redirect from login page
-        if (event === 'SIGNED_IN' && session?.user && window.location.pathname === '/login') {
-          console.log('User signed in from login page, redirecting to welcome');
-          window.location.href = '/welcome';
+        // Handle successful login - redirect to profile setup for new users
+        if (event === 'SIGNED_IN' && session?.user) {
+          console.log('User signed in, checking profile completion');
+          
+          // Check if user has completed profile
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('cpf, phone, study_interests, qualifications')
+            .eq('id', session.user.id)
+            .single();
+          
+          const isProfileComplete = profile && 
+            profile.cpf && 
+            profile.phone && 
+            profile.study_interests?.length > 0 && 
+            profile.qualifications?.length > 0;
+          
+          if (!isProfileComplete && window.location.pathname === '/login') {
+            console.log('Profile incomplete, redirecting to profile setup');
+            window.location.href = '/profile-setup';
+          } else if (isProfileComplete && window.location.pathname === '/login') {
+            console.log('Profile complete, redirecting to dashboard');
+            window.location.href = '/dashboard';
+          }
         }
       }
     );
@@ -62,7 +82,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/welcome`
+        redirectTo: `${window.location.origin}/login`
       }
     });
     

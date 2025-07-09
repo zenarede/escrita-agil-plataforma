@@ -1,5 +1,7 @@
+
 import { useState } from 'react';
-import { Clock, Users, Star, BookOpen, Play, ChevronDown, ChevronUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Clock, Users, Star, BookOpen, Play, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -190,6 +192,13 @@ const Courses = () => {
                           </>
                         )}
                       </Button>
+                      
+                      <Link to={`/curso/${course.slug}`}>
+                        <Button variant="outline" size="default">
+                          <ExternalLink className="h-4 w-4" />
+                        </Button>
+                      </Link>
+                      
                       <Collapsible open={expandedCourse === course.id} onOpenChange={() => toggleCourseContent(course.id)}>
                         <CollapsibleTrigger asChild>
                           <Button variant="outline" size="default">
