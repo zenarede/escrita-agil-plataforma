@@ -2,18 +2,17 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCanAccessCourse } from '@/hooks/useUserAccess';
-import { useCourseVideos } from '@/hooks/useCourseVideos';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Play, Clock, Lock, ArrowLeft } from 'lucide-react';
+import { Lock, ArrowLeft } from 'lucide-react';
+import CourseVideos from '@/components/CourseVideos';
 
 const CourseDetails = () => {
   const { courseSlug } = useParams<{ courseSlug: string }>();
   const { user } = useAuth();
   const navigate = useNavigate();
   const { canAccess, userStatus, isLoading: accessLoading } = useCanAccessCourse(courseSlug || '');
-  const { data: videos, isLoading: videosLoading } = useCourseVideos(courseSlug);
 
   // Course data (in a real app, this would come from the database)
   const courseData = {
@@ -78,7 +77,7 @@ const CourseDetails = () => {
     );
   }
 
-  if (accessLoading || videosLoading) {
+  if (accessLoading) {
     return (
       <div className="min-h-screen pt-20 bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -117,51 +116,8 @@ const CourseDetails = () => {
         </div>
 
         {canAccess ? (
-          // User has access - show videos
-          <div className="space-y-6">
-            <h2 className="text-2xl font-semibold text-gray-900">Conteúdo do Curso</h2>
-            
-            {videos && videos.length > 0 ? (
-              <div className="space-y-4">
-                {videos.map((video, index) => (
-                  <Card key={video.id} className="hover:shadow-md transition-shadow">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-start justify-between">
-                        <CardTitle className="text-lg flex items-center gap-2">
-                          <Badge variant="outline" className="text-xs">
-                            {index + 1}
-                          </Badge>
-                          {video.title}
-                        </CardTitle>
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          <Clock className="h-4 w-4" />
-                          <span>{video.duration_minutes}min</span>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      {video.description && (
-                        <p className="text-gray-600 text-sm mb-4">{video.description}</p>
-                      )}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center text-sm text-gray-500">
-                          <span>Aula {index + 1} de {videos.length}</span>
-                        </div>
-                        <Button size="sm" className="bg-blue-700 hover:bg-blue-800">
-                          <Play className="h-4 w-4 mr-2" />
-                          Assistir
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <p className="text-gray-600">Nenhum vídeo encontrado para este curso.</p>
-              </div>
-            )}
-          </div>
+          // User has access - show CourseVideos component with interactive player
+          <CourseVideos courseSlug={courseSlug || ''} courseTitle={course.title} />
         ) : (
           // User doesn't have access - show upgrade message
           <Card className="text-center py-12">
