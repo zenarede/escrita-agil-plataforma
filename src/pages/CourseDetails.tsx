@@ -14,6 +14,13 @@ const CourseDetails = () => {
   const navigate = useNavigate();
   const { canAccess, userStatus, isLoading: accessLoading } = useCanAccessCourse(courseSlug || '');
 
+  // Debug logs
+  console.log('🔍 CourseDetails - Course Slug:', courseSlug);
+  console.log('👤 CourseDetails - User:', user);
+  console.log('🔐 CourseDetails - Can Access:', canAccess);
+  console.log('📊 CourseDetails - User Status:', userStatus);
+  console.log('⏳ CourseDetails - Access Loading:', accessLoading);
+
   // Course data (in a real app, this would come from the database)
   const courseData = {
     'tcc-em-30-dias-metodo-agil': {
