@@ -68,6 +68,10 @@ const CourseVideos: React.FC<CourseVideosProps> = ({ courseSlug, courseTitle }) 
   const [completedVideos, setCompletedVideos] = useState<Set<string>>(new Set());
   const [videoEnded, setVideoEnded] = useState<Set<string>>(new Set());
 
+  console.log('🎥 CourseVideos - Curso:', courseSlug);
+  console.log('🔐 CourseVideos - Pode acessar:', canAccess);
+  console.log('📹 CourseVideos - Total de vídeos:', videos?.length || 0);
+
   if (isLoading) {
     return (
       <div className="space-y-4">

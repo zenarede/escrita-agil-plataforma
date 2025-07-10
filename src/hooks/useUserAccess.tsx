@@ -51,14 +51,30 @@ export const useCanAccessCourse = (courseSlug: string) => {
   const { data: userProfile, isLoading } = useUserAccess();
   
   const canAccess = React.useMemo(() => {
-    if (isLoading || !userProfile) return false;
+    if (isLoading || !userProfile) {
+      console.log('🚫 Acesso negado: Loading ou sem perfil de usuário');
+      return false;
+    }
+    
+    console.log('🔍 Verificando acesso ao curso:', courseSlug);
+    console.log('👤 Status do usuário:', userProfile.status);
+    console.log('📚 Cursos liberados:', userProfile.cursos_liberados);
+    
+    // ADMIN tem acesso a tudo
+    if (userProfile.status === 'admin') {
+      console.log('🔓 ADMIN: Acesso total liberado!');
+      return true;
+    }
     
     // Usuários com status "ativo" podem acessar cursos liberados
     if (userProfile.status === 'ativo' && userProfile.cursos_liberados) {
-      return userProfile.cursos_liberados.includes(courseSlug);
+      const hasAccess = userProfile.cursos_liberados.includes(courseSlug);
+      console.log(`${hasAccess ? '✅' : '❌'} Status ativo: ${hasAccess ? 'Tem' : 'Não tem'} acesso ao curso`);
+      return hasAccess;
     }
     
     // Usuários gratuitos não podem acessar cursos pagos
+    console.log('🚫 Status gratuito/pendente: Sem acesso a cursos');
     return false;
   }, [userProfile, courseSlug, isLoading]);
   
