@@ -82,8 +82,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const returnTo = localStorage.getItem('authReturnTo');
       localStorage.removeItem('authReturnTo'); // Clean up
       
-      // Only redirect from login page or if we have a stored return URL
-      if (window.location.pathname === '/login' || returnTo) {
+      // Redirect logic for successful login
+      if (window.location.pathname === '/login' || window.location.pathname === '/register' || returnTo) {
         if (!isProfileComplete) {
           console.log('Profile incomplete, redirecting to profile setup');
           localStorage.setItem('afterProfileSetup', returnTo || '/dashboard');
