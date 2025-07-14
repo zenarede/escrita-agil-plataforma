@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
 const Login = () => {
   const { toast } = useToast();
@@ -18,16 +19,39 @@ const Login = () => {
     password: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Login realizado!",
-      description: "Redirecionando para a área do aluno...",
-    });
-    // Simulate redirect to dashboard
-    setTimeout(() => {
-      window.location.href = '/dashboard';
-    }, 1500);
+    setLoading(true);
+    
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (error) {
+        toast({
+          title: "Erro no login",
+          description: error.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: "Login realizado!",
+        description: "Redirecionando para a área do aluno...",
+      });
+    } catch (error) {
+      console.error('Error during login:', error);
+      toast({
+        title: "Erro no login",
+        description: "Ocorreu um erro inesperado. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleLogin = async () => {
@@ -187,8 +211,20 @@ const Login = () => {
               </div>
 
               {/* Submit Button */}
-              <Button type="submit" className="w-full bg-blue-700 hover:bg-blue-800" size="lg">
-                Entrar
+              <Button 
+                type="submit" 
+                disabled={loading}
+                className="w-full bg-blue-700 hover:bg-blue-800" 
+                size="lg"
+              >
+                {loading ? (
+                  <div className="flex items-center space-x-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    <span>Entrando...</span>
+                  </div>
+                ) : (
+                  'Entrar'
+                )}
               </Button>
             </form>
 
