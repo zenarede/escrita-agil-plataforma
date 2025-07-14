@@ -13,6 +13,7 @@ import Courses from "./pages/Courses";
 import CourseDetails from "./pages/CourseDetails";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ProfileSetup from "./pages/ProfileSetup";
 import Welcome from "./pages/Welcome";
@@ -40,6 +41,7 @@ const App = () => (
                 <Route path="/comprar/:courseSlug" element={<Purchase />} />
                 <Route path="/contato" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/profile-setup" element={<ProfileSetup />} />
                 <Route path="/welcome" element={<Welcome />} />

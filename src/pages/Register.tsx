@@ -1,39 +1,50 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, BookOpen } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, BookOpen, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
 
-const Login = () => {
+const Register = () => {
   const { toast } = useToast();
-  const { signInWithGoogle, signInWithEmail } = useAuth();
+  const { signInWithGoogle, signUpWithEmail } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
+    if (formData.password !== formData.confirmPassword) {
+      toast({
+        title: "Erro",
+        description: "As senhas não coincidem.",
+        variant: "destructive"
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
-      await signInWithEmail(formData.email, formData.password);
+      await signUpWithEmail(formData.email, formData.password);
       
       toast({
-        title: "Login realizado!",
-        description: "Redirecionando para a área do aluno...",
+        title: "Cadastro realizado!",
+        description: "Verifique seu email para confirmar a conta.",
       });
     } catch (error: any) {
-      console.error('Error during login:', error);
+      console.error('Error during sign up:', error);
       toast({
-        title: "Erro no login",
+        title: "Erro no cadastro",
         description: error.message || "Ocorreu um erro inesperado. Tente novamente.",
         variant: "destructive"
       });
@@ -42,15 +53,15 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleSignUp = async () => {
     setLoading(true);
     try {
       await signInWithGoogle();
     } catch (error) {
-      console.error('Error during Google sign in:', error);
+      console.error('Error during Google sign up:', error);
       toast({
-        title: "Erro no login",
-        description: "Ocorreu um erro ao tentar fazer login com Google. Tente novamente.",
+        title: "Erro no cadastro",
+        description: "Ocorreu um erro ao tentar se cadastrar com Google. Tente novamente.",
         variant: "destructive"
       });
     } finally {
@@ -76,26 +87,26 @@ const Login = () => {
             <span className="text-2xl font-bold">Escrita com Ciência</span>
           </Link>
           <p className="mt-2 text-blue-100">
-            Acesse sua área do aluno
+            Crie sua conta e comece a aprender
           </p>
         </div>
 
-        {/* Login Form */}
+        {/* Register Form */}
         <Card className="shadow-2xl">
           <CardHeader>
             <CardTitle className="text-2xl text-center text-gray-900">
-              Entrar na Plataforma
+              Criar Conta
             </CardTitle>
             <p className="text-center text-gray-600">
-              Entre com suas credenciais para acessar seus cursos
+              Preencha os dados para se cadastrar na plataforma
             </p>
           </CardHeader>
           <CardContent>
             
-            {/* Google Login Button */}
+            {/* Google Sign Up Button */}
             <div className="mb-6">
               <Button 
-                onClick={handleGoogleLogin}
+                onClick={handleGoogleSignUp}
                 disabled={loading}
                 className="w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 font-medium"
                 size="lg"
@@ -126,13 +137,33 @@ const Login = () => {
                   <div className="w-full border-t border-gray-300" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">Ou continue com email</span>
+                  <span className="px-2 bg-white text-gray-500">Ou cadastre-se com email</span>
                 </div>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               
+              {/* Name */}
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  Nome completo
+                </label>
+                <div className="relative">
+                  <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Seu nome completo"
+                    className="pl-10"
+                  />
+                </div>
+              </div>
+
               {/* Email */}
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -180,22 +211,31 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* Remember & Forgot */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember"
-                    name="remember"
-                    type="checkbox"
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              {/* Confirm Password */}
+              <div>
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                  Confirmar senha
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    required
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirme sua senha"
+                    className="pl-10 pr-10"
                   />
-                  <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">
-                    Lembrar de mim
-                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
                 </div>
-                <Link to="/forgot-password" className="text-sm text-blue-600 hover:text-blue-500">
-                  Esqueceu a senha?
-                </Link>
               </div>
 
               {/* Submit Button */}
@@ -208,32 +248,21 @@ const Login = () => {
                 {loading ? (
                   <div className="flex items-center space-x-2">
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    <span>Entrando...</span>
+                    <span>Criando conta...</span>
                   </div>
                 ) : (
-                  'Entrar'
+                  'Criar Conta'
                 )}
               </Button>
             </form>
 
-            {/* Sign Up Link */}
+            {/* Sign In Link */}
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
-                Ainda não tem uma conta?{' '}
-                <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">
-                  Cadastre-se aqui
+                Já tem uma conta?{' '}
+                <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
+                  Faça login aqui
                 </Link>
-              </p>
-            </div>
-
-            {/* Demo Access */}
-            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-              <p className="text-xs text-blue-700 text-center mb-2">
-                <strong>Acesso Demo:</strong>
-              </p>
-              <p className="text-xs text-blue-600 text-center">
-                Email: demo@escritacomciencia.com<br />
-                Senha: demo123
               </p>
             </div>
           </CardContent>
@@ -242,7 +271,7 @@ const Login = () => {
         {/* Support Link */}
         <div className="text-center">
           <p className="text-blue-100 text-sm">
-            Problemas para acessar?{' '}
+            Problemas para criar conta?{' '}
             <Link to="/contato" className="text-white hover:text-blue-200 underline">
               Entre em contato
             </Link>
@@ -253,4 +282,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

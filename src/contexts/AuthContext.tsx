@@ -8,6 +8,8 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   signInWithGoogle: (returnTo?: string) => Promise<void>;
+  signInWithEmail: (email: string, password: string) => Promise<void>;
+  signUpWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -119,6 +121,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     console.log('Google sign in initiated:', data);
   };
 
+  const signInWithEmail = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    
+    if (error) {
+      throw error;
+    }
+  };
+
+  const signUpWithEmail = async (email: string, password: string) => {
+    const redirectUrl = `${window.location.origin}/`;
+    
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: redirectUrl
+      }
+    });
+    
+    if (error) {
+      throw error;
+    }
+  };
+
   const signOut = async () => {
     console.log('Signing out');
     const { error } = await supabase.auth.signOut();
@@ -137,6 +166,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       session,
       loading,
       signInWithGoogle,
+      signInWithEmail,
+      signUpWithEmail,
       signOut
     }}>
       {children}
