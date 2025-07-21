@@ -3,6 +3,31 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
+// Modo mock para desenvolvimento - REMOVER QUANDO CORRIGIR SUPABASE
+const MOCK_MODE = true;
+
+const mockUser: User = {
+  id: '92e4642a-a29f-4f66-8b5b-bd9c50f31a4f',
+  email: 'zenarede16@gmail.com',
+  aud: 'authenticated',
+  app_metadata: {},
+  user_metadata: {
+    full_name: 'José Eduardo Almeida Barros',
+    email: 'zenarede16@gmail.com'
+  },
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString()
+} as User;
+
+const mockSession: Session = {
+  access_token: 'mock-token',
+  refresh_token: 'mock-refresh',
+  expires_in: 3600,
+  expires_at: Date.now() + 3600000,
+  token_type: 'bearer',
+  user: mockUser
+} as Session;
+
 interface AuthContextType {
   user: User | null;
   session: Session | null;
@@ -29,6 +54,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (MOCK_MODE) {
+      // Modo mock - simula usuário logado
+      console.log('MOCK MODE: Simulando usuário logado');
+      setUser(mockUser);
+      setSession(mockSession);
+      setLoading(false);
+      return;
+    }
+
     console.log('Setting up auth state listener');
     
     // Set up auth state listener FIRST
