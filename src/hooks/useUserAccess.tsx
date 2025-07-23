@@ -5,7 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
 // Modo mock para desenvolvimento - REMOVER QUANDO CORRIGIR SUPABASE
-const MOCK_MODE = true;
+const MOCK_MODE = false;
 
 const mockUserProfile: UserProfile = {
   id: '92e4642a-a29f-4f66-8b5b-bd9c50f31a4f',

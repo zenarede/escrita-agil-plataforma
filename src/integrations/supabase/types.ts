@@ -22,7 +22,6 @@ export type Database = {
           duration_minutes: number | null
           id: string
           order_index: number | null
-          preco: number | null
           title: string
           upload_date: string | null
           video_url: string
@@ -34,7 +33,6 @@ export type Database = {
           duration_minutes?: number | null
           id?: string
           order_index?: number | null
-          preco?: number | null
           title: string
           upload_date?: string | null
           video_url: string
@@ -46,7 +44,6 @@ export type Database = {
           duration_minutes?: number | null
           id?: string
           order_index?: number | null
-          preco?: number | null
           title?: string
           upload_date?: string | null
           video_url?: string
