@@ -21,7 +21,7 @@ const Dashboard = () => {
       // Buscar cursos únicos da tabela course_videos
       const { data: courses, error } = await supabase
         .from('course_videos')
-        .select('course_slug, preco')
+        .select('course_slug')
         .order('course_slug');
 
       if (!error && courses) {
@@ -32,8 +32,8 @@ const Dashboard = () => {
             acc.push({
               course_slug: current.course_slug,
               title: getCourseTitleFromSlug(current.course_slug),
-              preco: current.preco,
-              hasAccess: userProfile?.cursos_liberados?.includes(current.course_slug) || false
+              hasAccess: userProfile?.cursos_liberados?.includes(current.course_slug) || 
+                         userProfile?.status === 'admin' || false
             });
           }
           return acc;
@@ -184,14 +184,7 @@ const Dashboard = () => {
                 <Card key={course.course_slug} className="hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <CardTitle className="text-lg">{course.title}</CardTitle>
-                    <div className="flex items-center justify-between">
-                      <Badge variant="outline">Disponível para compra</Badge>
-                      {course.preco && (
-                        <span className="text-2xl font-bold text-green-600">
-                          R$ {course.preco.toFixed(2).replace('.', ',')}
-                        </span>
-                      )}
-                    </div>
+                    <Badge variant="outline">Disponível para compra</Badge>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex gap-2">

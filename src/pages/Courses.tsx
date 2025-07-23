@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Clock, Users, Star, BookOpen, Play, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
+import { Clock, Users, Star, BookOpen, Play, ChevronDown, ChevronUp, ExternalLink, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -81,24 +81,16 @@ const Courses = () => {
   ];
 
   const handleEnrollClick = async () => {
-    console.log('==== handleEnrollClick chamado ====');
-    console.log('User:', user);
-    console.log('Current location:', window.location.pathname);
-    
     if (user) {
-      console.log('Usuário logado, navegando para dashboard');
       // User is already logged in, navigate to dashboard
       navigate('/dashboard');
       return;
     }
 
-    console.log('Usuário não logado, iniciando login');
     // User not logged in, initiate login with return URL
     setLoading(true);
     try {
-      console.log('Chamando signInWithGoogle com returnTo: /dashboard');
       await signInWithGoogle('/dashboard');
-      console.log('signInWithGoogle executado com sucesso');
       // The redirect will be handled by AuthContext after successful login
     } catch (error) {
       console.error('Error during Google sign in:', error);
@@ -131,7 +123,7 @@ const Courses = () => {
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-1 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {courses.map((course) => (
             <div key={course.id} className="space-y-4">
               <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
@@ -239,9 +231,11 @@ const Courses = () => {
           <p className="text-xl mb-8 text-blue-100">
             Entre em contato conosco e descubra como podemos ajudar você
           </p>
-          <Button size="lg" variant="secondary" className="bg-white text-blue-700 hover:bg-gray-100">
-            Falar com Especialista
-          </Button>
+          <Link to="/contact">
+            <Button size="lg" variant="secondary" className="bg-white text-blue-700 hover:bg-gray-100">
+              Falar com Especialista
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
