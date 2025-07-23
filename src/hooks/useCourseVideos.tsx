@@ -12,6 +12,7 @@ export interface CourseVideo {
   upload_date: string | null;
   order_index: number | null;
   created_at: string | null;
+  preco: number | null;
 }
 
 export const useCourseVideos = (courseSlug?: string) => {
