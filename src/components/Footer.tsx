@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="col-span-1 lg:col-span-2">
             <Link to="/" className="flex items-center mb-4">
               <img 
-                src="/lovable-uploads/logo-footer-new.png" 
+                src="/lovable-uploads/dbc91f96-f447-46a0-bf65-56e757cdd1d6.png" 
                 alt="Escrita com Ciência" 
                 className="h-12"
               />
