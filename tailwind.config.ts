@@ -18,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'aristotelica': ['Aristotelica Display', 'Poppins', 'Nunito Sans', 'Lato', 'Inter', 'sans-serif'],
+				'sans': ['Poppins', 'Nunito Sans', 'Lato', 'Inter', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,7 +65,10 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				/* Cores específicas da marca Escrita com Ciência */
+				'escrita-laranja': '#E05400',
+				'escrita-azul': '#003488',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
