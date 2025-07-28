@@ -14,28 +14,28 @@ const Home = () => {
       title: 'Mercado de Tecnologia',
       description: 'Desenvolvimento de habilidades para documentação técnica, relatórios de projetos e comunicação eficaz no setor tech.',
       courses: 12,
-      color: 'bg-blue-500'
+      color: 'bg-primary'
     },
     {
       icon: Briefcase,
       title: 'Mercado Financeiro',
       description: 'Escrita profissional para análises, relatórios financeiros e comunicação corporativa no setor financeiro.',
       courses: 8,
-      color: 'bg-green-500'
+      color: 'bg-secondary'
     },
     {
       icon: GraduationCap,
       title: 'Mercado de Educação',
       description: 'Metodologias de ensino, elaboração de materiais didáticos e comunicação acadêmica eficiente.',
       courses: 15,
-      color: 'bg-purple-500'
+      color: 'bg-primary'
     },
     {
       icon: Building,
       title: 'Mercado da Construção Civil',
       description: 'Elaboração de relatórios técnicos, projetos executivos e documentação para o setor da construção.',
       courses: 10,
-      color: 'bg-orange-500'
+      color: 'bg-secondary'
     }
   ];
 
@@ -98,7 +98,7 @@ const Home = () => {
                     <track.icon className="h-8 w-8 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-secondary transition-colors">
                       {track.title}
                     </h3>
                     <p className="text-gray-600 mb-4">
@@ -153,19 +153,19 @@ const Home = () => {
       <Testimonials />
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-800 to-blue-900 text-white">
+      <section className="py-20 bg-gradient-to-r from-secondary to-secondary/90 text-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
             Pronto para transformar sua escrita?
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
+          <p className="text-xl text-white/80 mb-8">
             Junte-se a mais de 500 estudantes que já conquistaram seus objetivos acadêmicos e profissionais
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50" asChild>
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
               <Link to="/cursos">Começar Agora</Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-900" asChild>
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-secondary" asChild>
               <Link to="/contato">Falar com Especialista</Link>
             </Button>
           </div>

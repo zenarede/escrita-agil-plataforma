@@ -30,13 +30,13 @@ const CourseCard = ({
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow group">
       <CardHeader className="p-0">
-        <div className="aspect-video bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center relative">
+        <div className="aspect-video bg-gradient-to-br from-secondary to-secondary/80 flex items-center justify-center relative">
           {image ? (
             <img src={image} alt={title} className="w-full h-full object-cover" />
           ) : (
             <BookOpen className="h-12 w-12 text-white" />
           )}
-          <Badge className="absolute top-4 right-4 bg-blue-700">
+          <Badge className="absolute top-4 right-4 bg-secondary">
             {category}
           </Badge>
         </div>
@@ -44,7 +44,7 @@ const CourseCard = ({
 
       <CardContent className="p-6">
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">
+          <h3 className="text-xl font-semibold text-gray-900 group-hover:text-secondary transition-colors">
             {title}
           </h3>
           
@@ -75,10 +75,10 @@ const CourseCard = ({
 
       <CardFooter className="p-6 pt-0 flex items-center justify-between">
         <div className="space-y-1">
-          <p className="text-2xl font-bold text-blue-700">{price}</p>
+          <p className="text-2xl font-bold text-secondary">{price}</p>
           <p className="text-xs text-gray-500">ou 12x sem juros</p>
         </div>
-        <Button className="bg-blue-700 hover:bg-blue-800">
+        <Button className="bg-primary hover:bg-primary/90">
           Inscrever-se
         </Button>
       </CardFooter>

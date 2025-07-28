@@ -58,12 +58,12 @@ const Institutional = () => {
     <div className="min-h-screen pt-20">
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-900 to-blue-800 text-white py-20">
+      <section className="bg-gradient-to-br from-secondary to-secondary/90 text-white py-20">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl font-bold mb-6">
             Transformando a Escrita Acadêmica no Brasil
           </h1>
-          <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+          <p className="text-xl text-white/80 mb-8 leading-relaxed">
             Somos uma plataforma educacional especializada em desenvolver habilidades de escrita 
             científica e profissional, conectando estudantes ao mercado de trabalho através de 
             metodologias inovadoras e mentorias personalizadas.
@@ -78,8 +78,8 @@ const Institutional = () => {
             
             {/* Mission */}
             <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Target className="h-8 w-8 text-blue-700" />
+              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Target className="h-8 w-8 text-primary" />
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Nossa Missão</h2>
               <p className="text-gray-600 leading-relaxed">
@@ -91,8 +91,8 @@ const Institutional = () => {
 
             {/* Vision */}
             <div className="text-center">
-              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Eye className="h-8 w-8 text-green-700" />
+              <div className="bg-secondary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Eye className="h-8 w-8 text-secondary" />
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Nossa Visão</h2>
               <p className="text-gray-600 leading-relaxed">
@@ -104,8 +104,8 @@ const Institutional = () => {
 
             {/* Impact */}
             <div className="text-center">
-              <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Heart className="h-8 w-8 text-purple-700" />
+              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Heart className="h-8 w-8 text-primary" />
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Nosso Impacto</h2>
               <p className="text-gray-600 leading-relaxed">
@@ -134,8 +134,8 @@ const Institutional = () => {
             {values.map((value, index) => (
               <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                 <CardContent className="p-8">
-                  <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <value.icon className="h-8 w-8 text-blue-700" />
+                  <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <value.icon className="h-8 w-8 text-primary" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">
                     {value.title}
@@ -151,13 +151,13 @@ const Institutional = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-20 bg-blue-900 text-white">
+      <section className="py-20 bg-secondary text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Nossos Números
             </h2>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
               O impacto real da nossa metodologia na vida de estudantes e profissionais
             </p>
           </div>
@@ -165,10 +165,10 @@ const Institutional = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-4xl sm:text-5xl font-bold text-blue-300 mb-2">
+                <div className="text-4xl sm:text-5xl font-bold text-primary mb-2">
                   {stat.number}
                 </div>
-                <div className="text-sm sm:text-base text-blue-100">
+                <div className="text-sm sm:text-base text-white/80">
                   {stat.label}
                 </div>
               </div>
@@ -193,7 +193,7 @@ const Institutional = () => {
             {team.map((member, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-8 text-center">
-                  <div className="w-24 h-24 bg-gradient-to-br from-blue-600 to-blue-800 rounded-full mx-auto mb-6 flex items-center justify-center">
+                  <div className="w-24 h-24 bg-gradient-to-br from-secondary to-secondary/80 rounded-full mx-auto mb-6 flex items-center justify-center">
                     <span className="text-2xl font-bold text-white">
                       {member.name.split(' ').map(n => n[0]).join('')}
                     </span>
@@ -201,7 +201,7 @@ const Institutional = () => {
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
                     {member.name}
                   </h3>
-                  <p className="text-blue-700 font-medium mb-4">
+                  <p className="text-secondary font-medium mb-4">
                     {member.role}
                   </p>
                   <p className="text-gray-600 text-sm mb-4 leading-relaxed">
@@ -227,7 +227,7 @@ const Institutional = () => {
           </h2>
           
           <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-blue-700 mb-6">Método RAC</h3>
+            <h3 className="text-2xl font-bold text-secondary mb-6">Método RAC</h3>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
               Desenvolvemos o Método RAC (Rápido, Ágil e Científico), uma abordagem exclusiva 
               que combina técnicas de produtividade, estruturação lógica e escrita científica 
@@ -236,24 +236,24 @@ const Institutional = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Clock className="h-8 w-8 text-red-700" />
+                <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Clock className="h-8 w-8 text-primary" />
                 </div>
                 <h4 className="font-bold text-gray-900 mb-2">Rápido</h4>
                 <p className="text-sm text-gray-600">Técnicas para escrever em menos tempo</p>
               </div>
               
               <div className="text-center">
-                <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Target className="h-8 w-8 text-green-700" />
+                <div className="bg-secondary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Target className="h-8 w-8 text-secondary" />
                 </div>
                 <h4 className="font-bold text-gray-900 mb-2">Ágil</h4>
                 <p className="text-sm text-gray-600">Metodologia flexível e adaptável</p>
               </div>
               
               <div className="text-center">
-                <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Award className="h-8 w-8 text-blue-700" />
+                <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Award className="h-8 w-8 text-primary" />
                 </div>
                 <h4 className="font-bold text-gray-900 mb-2">Científico</h4>
                 <p className="text-sm text-gray-600">Rigor acadêmico e qualidade científica</p>

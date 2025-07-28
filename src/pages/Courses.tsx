@@ -127,7 +127,7 @@ const Courses = () => {
           {courses.map((course) => (
             <div key={course.id} className="space-y-4">
               <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                <div className="aspect-video bg-gradient-to-br from-blue-600 to-blue-800 relative">
+                <div className="aspect-video bg-gradient-to-br from-secondary to-secondary/80 relative">
                   <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
                     <Play className="h-16 w-16 text-white" />
                   </div>
@@ -167,7 +167,7 @@ const Courses = () => {
                   <div className="border-t pt-4">
                     <div className="flex items-center justify-between mb-4">
                       <div>
-                        <span className="text-2xl font-bold text-blue-700">{course.price}</span>
+                        <span className="text-2xl font-bold text-secondary">{course.price}</span>
                         <span className="text-sm text-gray-500 line-through ml-2">{course.originalPrice}</span>
                       </div>
                     </div>
@@ -175,7 +175,7 @@ const Courses = () => {
                     <div className="flex gap-2">
                       <Button 
                         onClick={handleEnrollClick}
-                        className="flex-1 bg-blue-700 hover:bg-blue-800"
+                        className="flex-1 bg-primary hover:bg-primary/90"
                         disabled={loading}
                       >
                         {loading ? (
@@ -224,15 +224,15 @@ const Courses = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-16 text-center bg-blue-700 rounded-2xl p-12 text-white">
+        <div className="mt-16 text-center bg-secondary rounded-2xl p-12 text-white">
           <h2 className="text-3xl font-bold mb-4">
             Não encontrou o que procurava?
           </h2>
-          <p className="text-xl mb-8 text-blue-100">
+          <p className="text-xl mb-8 text-white/80">
             Entre em contato conosco e descubra como podemos ajudar você
           </p>
           <Link to="/contact">
-            <Button size="lg" variant="secondary" className="bg-white text-blue-700 hover:bg-gray-100">
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
               Falar com Especialista
             </Button>
           </Link>

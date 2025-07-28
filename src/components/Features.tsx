@@ -54,8 +54,8 @@ const Features = () => {
               key={index}
               className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow group"
             >
-              <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-lg mb-6 group-hover:bg-blue-200 transition-colors">
-                <feature.icon className="h-8 w-8 text-blue-700" />
+              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-lg mb-6 group-hover:bg-primary/20 transition-colors">
+                <feature.icon className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
                 {feature.title}
