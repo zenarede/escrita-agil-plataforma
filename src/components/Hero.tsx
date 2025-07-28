@@ -28,7 +28,7 @@ const Hero = () => {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-secondary">
+              <Button size="lg" variant="outline" className="border-white text-white bg-white/10 hover:bg-white hover:text-secondary">
                 <Play className="mr-2 h-5 w-5" />
                 Assistir Demo
               </Button>
@@ -70,7 +70,7 @@ const Hero = () => {
                 <p className="text-white/90">
                   Destrave sua escrita em menos de 6 horas com nossa metodologia exclusiva
                 </p>
-                <Button variant="outline" className="w-full border-white text-white hover:bg-white hover:text-secondary">
+                <Button variant="outline" className="w-full border-white text-white bg-white/10 hover:bg-white hover:text-secondary">
                   Começar Agora
                 </Button>
               </div>
