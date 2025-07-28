@@ -53,6 +53,72 @@ export type Database = {
         }
         Relationships: []
       }
+      curso_precos: {
+        Row: {
+          created_at: string
+          curso_slug: string
+          id: string
+          moeda: string
+          preco: number
+          tipo_preco: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          curso_slug: string
+          id?: string
+          moeda?: string
+          preco: number
+          tipo_preco?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          curso_slug?: string
+          id?: string
+          moeda?: string
+          preco?: number
+          tipo_preco?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cursos: {
+        Row: {
+          created_at: string
+          descricao: string | null
+          duracao_estimada: string | null
+          instrutor: string | null
+          nivel: string | null
+          slug: string
+          status: string | null
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          descricao?: string | null
+          duracao_estimada?: string | null
+          instrutor?: string | null
+          nivel?: string | null
+          slug: string
+          status?: string | null
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string | null
+          duracao_estimada?: string | null
+          instrutor?: string | null
+          nivel?: string | null
+          slug?: string
+          status?: string | null
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           cpf: string | null
@@ -95,6 +161,39 @@ export type Database = {
           status?: string | null
           study_interests?: string[] | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      user_progress: {
+        Row: {
+          created_at: string
+          curso_slug: string
+          id: string
+          updated_at: string
+          user_id: string
+          video_id: string
+          watched: boolean
+          watched_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          curso_slug: string
+          id?: string
+          updated_at?: string
+          user_id: string
+          video_id: string
+          watched?: boolean
+          watched_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          curso_slug?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+          video_id?: string
+          watched?: boolean
+          watched_at?: string | null
         }
         Relationships: []
       }

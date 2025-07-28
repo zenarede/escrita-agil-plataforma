@@ -8,38 +8,52 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserAccess } from '@/hooks/useUserAccess';
+import { useUserProgress } from '@/hooks/useUserProgress';
+import { CourseProgress } from '@/components/CourseProgress';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { data: userProfile } = useUserAccess();
+  const { getOverallProgress, getCourseProgress, loading: progressLoading } = useUserProgress();
   const [availableCourses, setAvailableCourses] = useState<any[]>([]);
+  const [coursePrices, setCoursePrices] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     const fetchAvailableCourses = async () => {
-      // Buscar cursos únicos da tabela course_videos
-      const { data: courses, error } = await supabase
-        .from('course_videos')
-        .select('course_slug')
-        .order('course_slug');
+      try {
+        // Buscar cursos da nova tabela cursos
+        const { data: courses, error } = await supabase
+          .from('cursos')
+          .select('*')
+          .eq('status', 'ativo')
+          .order('titulo');
 
-      if (!error && courses) {
-        // Remover duplicatas e criar lista de cursos únicos
-        const uniqueCourses = courses.reduce((acc: any[], current) => {
-          const existing = acc.find(course => course.course_slug === current.course_slug);
-          if (!existing) {
-            acc.push({
-              course_slug: current.course_slug,
-              title: getCourseTitleFromSlug(current.course_slug),
-              hasAccess: userProfile?.cursos_liberados?.includes(current.course_slug) || 
-                         userProfile?.status === 'admin' || false
-            });
-          }
-          return acc;
-        }, []);
-        
-        setAvailableCourses(uniqueCourses);
+        if (!error && courses) {
+          const coursesWithAccess = courses.map(course => ({
+            ...course,
+            hasAccess: userProfile?.cursos_liberados?.includes(course.slug) || 
+                      userProfile?.status === 'admin' || false
+          }));
+          
+          setAvailableCourses(coursesWithAccess);
+        }
+
+        // Buscar preços dos cursos
+        const { data: prices, error: pricesError } = await supabase
+          .from('curso_precos')
+          .select('curso_slug, preco');
+
+        if (!pricesError && prices) {
+          const pricesMap = prices.reduce((acc, price) => {
+            acc[price.curso_slug] = price.preco;
+            return acc;
+          }, {});
+          setCoursePrices(pricesMap);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar cursos:', error);
       }
     };
 
@@ -48,67 +62,124 @@ const Dashboard = () => {
     }
   }, [userProfile]);
 
-  const getCourseTitleFromSlug = (slug: string) => {
-    const titles: { [key: string]: string } = {
-      'tcc-em-30-dias-metodo-agil': 'TCC em 30 Dias - Método Ágil',
-      'metodo-rac-escrita-cientifica': 'Método RAC - Escrita Científica',
-      'preparacao-para-mestrado': 'Preparação para Mestrado',
-      'artigos-cientificos-de-impacto': 'Artigos Científicos de Impacto'
-    };
-    return titles[slug] || slug;
-  };
-
   const enrolledCourses = availableCourses.filter(course => course.hasAccess);
   const availableForPurchase = availableCourses.filter(course => !course.hasAccess);
+  
+  const overallProgress = getOverallProgress();
 
   const stats = [
-    { label: 'Cursos Liberados', value: enrolledCourses.length.toString(), icon: CheckCircle, color: 'text-green-600' },
-    { label: 'Status', value: userProfile?.status || 'gratuito', icon: Award, color: 'text-blue-600' },
-    { label: 'Cursos Disponíveis', value: availableForPurchase.length.toString(), icon: BookOpen, color: 'text-purple-600' },
-    { label: 'Perfil Completo', value: userProfile?.cpf ? 'Sim' : 'Não', icon: Users, color: 'text-orange-600' }
+    { 
+      label: 'Cursos Matriculado', 
+      value: enrolledCourses.length.toString(), 
+      icon: CheckCircle, 
+      color: 'text-primary',
+      description: 'Cursos com acesso liberado'
+    },
+    { 
+      label: 'Progresso Geral', 
+      value: `${overallProgress.overallPercentage}%`, 
+      icon: TrendingUp, 
+      color: 'text-secondary',
+      description: `${overallProgress.watchedVideos} de ${overallProgress.totalVideos} vídeos`
+    },
+    { 
+      label: 'Cursos Concluídos', 
+      value: overallProgress.completedCourses.toString(), 
+      icon: Award, 
+      color: 'text-primary',
+      description: `De ${overallProgress.totalCourses} cursos matriculados`
+    },
+    { 
+      label: 'Status da Conta', 
+      value: userProfile?.status || 'gratuito', 
+      icon: Users, 
+      color: 'text-secondary',
+      description: 'Nível de acesso atual'
+    }
   ];
 
   if (!user || !userProfile) {
     return (
-      <div className="min-h-screen pt-20 bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen pt-20 bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700 mx-auto mb-4"></div>
-          <p className="text-gray-600">Carregando dados do usuário...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Carregando dados do usuário...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-20 bg-gray-50">
+    <div className="min-h-screen pt-20 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold text-foreground font-aristotelica">
                 Olá, {userProfile.full_name || user.email}! 👋
               </h1>
-              <p className="text-gray-600 mt-1">
-                Continue sua jornada de aprendizado
+              <p className="text-muted-foreground mt-1">
+                Continue sua jornada de aprendizado científico
               </p>
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-right">
-                <p className="text-sm text-gray-500">Status da conta</p>
+                <p className="text-sm text-muted-foreground">Status da conta</p>
                 <Badge variant={userProfile.status === 'ativo' ? 'default' : 'secondary'}>
                   {userProfile.status || 'gratuito'}
                 </Badge>
               </div>
-              <div className="w-12 h-12 bg-blue-700 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold">
+              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                <span className="text-primary-foreground font-bold">
                   {(userProfile.full_name || user.email || '').charAt(0).toUpperCase()}
                 </span>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Progresso Geral */}
+        {!progressLoading && overallProgress.totalVideos > 0 && (
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 font-aristotelica">
+                <TrendingUp className="h-5 w-5" />
+                Resumo do Progresso
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Progresso Geral</span>
+                  <span className="text-sm text-muted-foreground">
+                    {overallProgress.overallPercentage}%
+                  </span>
+                </div>
+                <Progress value={overallProgress.overallPercentage} className="h-3" />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                  <div>
+                    <p className="text-lg font-bold text-primary">{overallProgress.watchedVideos}</p>
+                    <p className="text-xs text-muted-foreground">Vídeos Assistidos</p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-secondary">{overallProgress.totalVideos}</p>
+                    <p className="text-xs text-muted-foreground">Total de Vídeos</p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-primary">{overallProgress.completedCourses}</p>
+                    <p className="text-xs text-muted-foreground">Cursos Concluídos</p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-secondary">{overallProgress.totalCourses}</p>
+                    <p className="text-xs text-muted-foreground">Total de Cursos</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -117,8 +188,9 @@ const Dashboard = () => {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">{stat.label}</p>
-                    <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
+                    <p className="text-2xl font-bold text-foreground font-aristotelica">{stat.value}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{stat.description}</p>
                   </div>
                   <stat.icon className={`h-8 w-8 ${stat.color}`} />
                 </div>
@@ -139,32 +211,50 @@ const Dashboard = () => {
           <TabsContent value="courses" className="space-y-6">
             {enrolledCourses.length > 0 ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                {enrolledCourses.map((course) => (
-                  <Card key={course.course_slug} className="hover:shadow-lg transition-shadow">
-                    <CardHeader>
-                      <CardTitle className="text-lg">{course.title}</CardTitle>
-                      <Badge variant="default">Liberado</Badge>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="flex gap-2">
-                        <Link to={`/curso/${course.course_slug}`} className="flex-1">
-                          <Button size="sm" className="w-full">
-                            <Play className="h-4 w-4 mr-2" />
-                            Acessar Curso
-                          </Button>
-                        </Link>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                {enrolledCourses.map((course) => {
+                  const courseProgress = getCourseProgress(course.slug);
+                  return (
+                    <Card key={course.slug} className="hover:shadow-lg transition-shadow">
+                      <CardHeader>
+                        <CardTitle className="text-lg font-aristotelica">{course.titulo}</CardTitle>
+                        <div className="flex items-center gap-2">
+                          <Badge variant="default">Liberado</Badge>
+                          <Badge variant="outline" className="text-xs">
+                            {course.nivel}
+                          </Badge>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {course.descricao && (
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {course.descricao}
+                          </p>
+                        )}
+                        
+                        {courseProgress && (
+                          <CourseProgress courseProgress={courseProgress} showDetails={true} />
+                        )}
+                        
+                        <div className="flex gap-2">
+                          <Link to={`/curso/${course.slug}`} className="flex-1">
+                            <Button size="sm" className="w-full">
+                              <Play className="h-4 w-4 mr-2" />
+                              Acessar Curso
+                            </Button>
+                          </Link>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             ) : (
               <Card>
                 <CardContent className="p-8 text-center">
-                  <BookOpen className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="font-semibold text-gray-600 mb-2">Nenhum curso liberado</h3>
-                  <p className="text-sm text-gray-500 mb-4">
-                    Você ainda não tem acesso a nenhum curso. Adquira um curso para começar!
+                  <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="font-semibold text-foreground mb-2 font-aristotelica">Nenhum curso liberado</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Você ainda não tem acesso a nenhum curso. Adquira um curso para começar sua jornada científica!
                   </p>
                   <Button onClick={() => {
                     const tab = document.querySelector('[data-value="available"]') as HTMLButtonElement;
@@ -181,19 +271,40 @@ const Dashboard = () => {
           <TabsContent value="available" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
               {availableForPurchase.map((course) => (
-                <Card key={course.course_slug} className="hover:shadow-lg transition-shadow">
+                <Card key={course.slug} className="hover:shadow-lg transition-shadow">
                   <CardHeader>
-                    <CardTitle className="text-lg">{course.title}</CardTitle>
-                    <Badge variant="outline">Disponível para compra</Badge>
+                    <CardTitle className="text-lg font-aristotelica">{course.titulo}</CardTitle>
+                    <div className="flex items-center justify-between">
+                      <Badge variant="outline">Disponível para compra</Badge>
+                      {coursePrices[course.slug] && (
+                        <span className="text-lg font-bold text-primary">
+                          R$ {coursePrices[course.slug].toFixed(2)}
+                        </span>
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
+                    {course.descricao && (
+                      <p className="text-sm text-muted-foreground line-clamp-3">
+                        {course.descricao}
+                      </p>
+                    )}
+                    
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Clock className="h-4 w-4" />
+                      <span>{course.duracao_estimada}</span>
+                      <Badge variant="secondary" className="text-xs">
+                        {course.nivel}
+                      </Badge>
+                    </div>
+                    
                     <div className="flex gap-2">
-                      <Link to={`/curso/${course.course_slug}`} className="flex-1">
+                      <Link to={`/curso/${course.slug}`} className="flex-1">
                         <Button size="sm" variant="outline" className="w-full">
                           Ver Detalhes
                         </Button>
                       </Link>
-                      <Link to={`/comprar/${course.course_slug}`}>
+                      <Link to={`/comprar/${course.slug}`}>
                         <Button size="sm">
                           <ShoppingCart className="h-4 w-4 mr-2" />
                           Comprar
