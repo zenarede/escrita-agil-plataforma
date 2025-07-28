@@ -46,6 +46,12 @@ const CourseDetails = () => {
       description: 'Aprenda a escrever e publicar artigos científicos em revistas de alto impacto.',
       instructor: 'Dr. Roberto Lima',
       category: 'Publicação'
+    },
+    'como-escrever-um-artigo-cientifico': {
+      title: 'Como Escrever um Artigo Científico',
+      description: 'Aprenda o passo a passo completo para escrever artigos científicos de qualidade e aumentar suas chances de publicação.',
+      instructor: 'Dr. Roberto Lima',
+      category: 'Escrita Científica'
     }
   };
 
@@ -56,7 +62,7 @@ const CourseDetails = () => {
       <div className="min-h-screen pt-20 bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Curso não encontrado</h1>
-          <Button onClick={() => navigate('/cursos')}>
+          <Button onClick={() => navigate('/dashboard')}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Voltar aos Cursos
           </Button>
@@ -102,7 +108,7 @@ const CourseDetails = () => {
         {/* Back Button */}
         <Button 
           variant="ghost" 
-          onClick={() => navigate('/cursos')}
+          onClick={() => navigate('/dashboard')}
           className="mb-6"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
