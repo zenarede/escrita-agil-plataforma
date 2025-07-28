@@ -19,8 +19,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'aristotelica': ['Aristotelica Display', 'Poppins', 'Nunito Sans', 'Lato', 'Inter', 'sans-serif'],
-				'sans': ['Poppins', 'Nunito Sans', 'Lato', 'Inter', 'sans-serif'],
+				'aristotelica': ['Aristotelica Display', 'serif'],
+				'sans': ['Aristotelica Display', 'Poppins', 'Nunito Sans', 'Lato', 'Inter', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
