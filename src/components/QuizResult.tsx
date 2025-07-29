@@ -105,7 +105,7 @@ export function QuizResult({ result, onUpgrade, onLogin }: QuizResultProps) {
               {result.arquetipo.cursos_indicados.map((curso, index) => (
                 <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                   <span className="font-medium">{curso}</span>
-                  <Button size="sm" variant="outline">
+                  <Button size="sm" variant="outline" onClick={() => navigate(`/curso/escrita-agil`)}>
                     Ver Curso
                   </Button>
                 </div>
