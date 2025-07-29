@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { BookOpen, Play, Calendar, Download, Award, Clock, TrendingUp, Users, CheckCircle, ShoppingCart } from 'lucide-react';
+import { BookOpen, Play, Calendar, Download, Award, Clock, TrendingUp, Users, CheckCircle, ShoppingCart, Brain } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserAccess } from '@/hooks/useUserAccess';
 import { useUserProgress } from '@/hooks/useUserProgress';
+import { useUserQuizResult } from '@/hooks/useUserQuizResult';
 import { CourseProgress } from '@/components/CourseProgress';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
@@ -17,6 +18,7 @@ const Dashboard = () => {
   const { user } = useAuth();
   const { data: userProfile } = useUserAccess();
   const { getOverallProgress, getCourseProgress, loading: progressLoading } = useUserProgress();
+  const { data: userQuizResult } = useUserQuizResult();
   const [availableCourses, setAvailableCourses] = useState<any[]>([]);
   const [coursePrices, setCoursePrices] = useState<{ [key: string]: number }>({});
 
@@ -198,6 +200,57 @@ const Dashboard = () => {
             </Card>
           ))}
         </div>
+
+        {/* Zodíaco Profissional */}
+        {userQuizResult ? (
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 font-aristotelica">
+                <Brain className="h-5 w-5" />
+                Seu Zodíaco Profissional
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold text-primary">{userQuizResult.arquetipo_nome}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Nível de confiança: {userQuizResult.nivel_confianca} • 
+                    Teste realizado em {new Date(userQuizResult.created_at).toLocaleDateString('pt-BR')}
+                  </p>
+                  <div className="flex gap-2 mt-2">
+                    {Object.entries(userQuizResult.niveis_calculados).map(([trait, level]) => (
+                      <span key={trait} className="text-xs bg-secondary/20 px-2 py-1 rounded-full">
+                        {trait}: {level}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <Link to="/zodiaco-profissional">
+                  <Button variant="outline" size="sm">
+                    Ver Detalhes
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="mb-8">
+            <CardContent className="p-6 text-center">
+              <Brain className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <h3 className="font-semibold text-foreground mb-2 font-aristotelica">Descubra seu Zodíaco Profissional</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Faça nosso teste científico baseado no modelo Big Five e descubra seu perfil profissional ideal.
+              </p>
+              <Link to="/zodiaco-profissional">
+                <Button>
+                  <Brain className="h-4 w-4 mr-2" />
+                  Fazer Teste Gratuito
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Main Content */}
         <Tabs defaultValue="courses" className="space-y-8">

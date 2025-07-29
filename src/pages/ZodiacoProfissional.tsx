@@ -23,7 +23,7 @@ export default function ZodiacoProfissional() {
   const { data: arquetipos, isLoading: loadingArquetipos } = useArquetipos();
 
   const totalQuestions = questions?.length || 12;
-  const progress = ((currentQuestion + respostas.length) / totalQuestions) * 100;
+  const progress = respostas.length > 0 ? ((respostas.length) / totalQuestions) * 100 : 0;
 
   const handleAnswer = (value: number) => {
     const newRespostas = [...respostas];
@@ -147,88 +147,95 @@ export default function ZodiacoProfissional() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-accent/20">
-      {/* Hero Section */}
-      {currentQuestion === 0 && respostas.length === 0 && (
-        <div className="container mx-auto px-4 py-16 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold text-primary mb-6">
-              Zodíaco Profissional
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Descubra seu superpoder profissional oculto com nosso teste científico baseado no modelo Big Five
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              <div className="text-center">
-                <Brain className="h-12 w-12 mx-auto mb-4 text-primary" />
-                <h3 className="font-semibold mb-2">Científico</h3>
-                <p className="text-sm text-muted-foreground">Baseado no modelo Big Five de personalidade</p>
-              </div>
-              <div className="text-center">
-                <TrendingUp className="h-12 w-12 mx-auto mb-4 text-primary" />
-                <h3 className="font-semibold mb-2">Rápido</h3>
-                <p className="text-sm text-muted-foreground">Apenas 12 perguntas, 2 minutos do seu tempo</p>
-              </div>
-              <div className="text-center">
-                <Star className="h-12 w-12 mx-auto mb-4 text-primary" />
-                <h3 className="font-semibold mb-2">Personalizado</h3>
-                <p className="text-sm text-muted-foreground">Recomendações específicas para sua carreira</p>
+    <div className="min-h-screen bg-gradient-to-br from-background to-accent/20 pt-20">
+      <div className="container mx-auto px-4">
+        {/* Hero Section - only show when quiz hasn't started */}
+        {respostas.length === 0 && (
+          <div className="py-16 text-center">
+            <div className="max-w-4xl mx-auto">
+              <h1 className="text-4xl md:text-6xl font-bold text-primary mb-6">
+                Zodíaco Profissional
+              </h1>
+              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+                Descubra seu superpoder profissional oculto com nosso teste científico baseado no modelo Big Five
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div className="text-center">
+                  <Brain className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <h3 className="font-semibold mb-2">Científico</h3>
+                  <p className="text-sm text-muted-foreground">Baseado no modelo Big Five de personalidade</p>
+                </div>
+                <div className="text-center">
+                  <TrendingUp className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <h3 className="font-semibold mb-2">Rápido</h3>
+                  <p className="text-sm text-muted-foreground">Apenas 12 perguntas, 2 minutos do seu tempo</p>
+                </div>
+                <div className="text-center">
+                  <Star className="h-12 w-12 mx-auto mb-4 text-primary" />
+                  <h3 className="font-semibold mb-2">Personalizado</h3>
+                  <p className="text-sm text-muted-foreground">Recomendações específicas para sua carreira</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Quiz Section */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto">
-          {questions && questions.length > 0 && (
-            <>
-              {/* Progress Bar */}
-              <div className="mb-8">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium text-muted-foreground">
-                    Pergunta {currentQuestion + 1} de {totalQuestions}
-                  </span>
-                  <span className="text-sm font-medium text-muted-foreground">
-                    {Math.round(progress)}%
-                  </span>
+        {/* Quiz Section */}
+        <div className="py-8">
+          <div className="max-w-2xl mx-auto">
+            {questions && questions.length > 0 && (
+              <>
+                {/* Fixed Header with Progress Bar */}
+                <div className="mb-8 bg-background/80 backdrop-blur-sm rounded-lg p-4 border">
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-lg font-semibold text-foreground">
+                      Zodíaco Profissional
+                    </h2>
+                    <span className="text-sm font-medium text-muted-foreground">
+                      {Math.round(progress)}%
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm font-medium text-muted-foreground">
+                      Pergunta {currentQuestion + 1} de {totalQuestions}
+                    </span>
+                  </div>
+                  <Progress value={progress} className="h-2" />
                 </div>
-                <Progress value={progress} className="h-2" />
-              </div>
 
-              {/* Question */}
-              <QuizQuestion
-                question={questions[currentQuestion]}
-                value={respostas[currentQuestion] || null}
-                onChange={handleAnswer}
-              />
+                {/* Question */}
+                <QuizQuestion
+                  question={questions[currentQuestion]}
+                  value={respostas[currentQuestion] || null}
+                  onChange={handleAnswer}
+                />
 
-              {/* Navigation */}
-              {respostas[currentQuestion] && (
-                <div className="flex justify-between mt-6">
-                  <Button 
-                    onClick={goToPrevious}
-                    variant="outline"
-                    disabled={currentQuestion === 0}
-                  >
-                    Anterior
-                  </Button>
-                  
-                  {currentQuestion < totalQuestions - 1 ? (
-                    <Button onClick={goToNext}>
-                      Próxima
+                {/* Navigation */}
+                {respostas[currentQuestion] && (
+                  <div className="flex justify-between mt-6">
+                    <Button 
+                      onClick={goToPrevious}
+                      variant="outline"
+                      disabled={currentQuestion === 0}
+                    >
+                      Anterior
                     </Button>
-                  ) : (
-                    <Button onClick={() => finalizarTeste(respostas)}>
-                      Finalizar Teste
-                    </Button>
-                  )}
-                </div>
-              )}
-            </>
-          )}
+                    
+                    {currentQuestion < totalQuestions - 1 ? (
+                      <Button onClick={goToNext}>
+                        Próxima
+                      </Button>
+                    ) : (
+                      <Button onClick={() => finalizarTeste(respostas)}>
+                        Finalizar Teste
+                      </Button>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
