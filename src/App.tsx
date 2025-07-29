@@ -20,6 +20,7 @@ import Welcome from "./pages/Welcome";
 import FAQ from "./pages/FAQ";
 import Purchase from "./pages/Purchase";
 import NotFound from "./pages/NotFound";
+import ZodiacoProfissional from "./pages/ZodiacoProfissional";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
                 <Route path="/profile-setup" element={<ProfileSetup />} />
                 <Route path="/welcome" element={<Welcome />} />
                 <Route path="/faq" element={<FAQ />} />
+                <Route path="/zodiaco-profissional" element={<ZodiacoProfissional />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

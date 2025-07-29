@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      arquetipos: {
+        Row: {
+          carreiras_favoraveis: string[]
+          created_at: string
+          cursos_indicados: string[]
+          cursos_sugeridos: string[]
+          descricao: string
+          entusiasta: string
+          id: string
+          mente_aberta: string
+          nome: string
+          organizado: string
+          sensivel: string
+          tecnico: string
+          updated_at: string
+        }
+        Insert: {
+          carreiras_favoraveis?: string[]
+          created_at?: string
+          cursos_indicados?: string[]
+          cursos_sugeridos?: string[]
+          descricao: string
+          entusiasta: string
+          id?: string
+          mente_aberta: string
+          nome: string
+          organizado: string
+          sensivel: string
+          tecnico: string
+          updated_at?: string
+        }
+        Update: {
+          carreiras_favoraveis?: string[]
+          created_at?: string
+          cursos_indicados?: string[]
+          cursos_sugeridos?: string[]
+          descricao?: string
+          entusiasta?: string
+          id?: string
+          mente_aberta?: string
+          nome?: string
+          organizado?: string
+          sensivel?: string
+          tecnico?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       course_videos: {
         Row: {
           course_slug: string
@@ -161,6 +209,72 @@ export type Database = {
           status?: string | null
           study_interests?: string[] | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      quiz_questions: {
+        Row: {
+          ativo: boolean
+          created_at: string
+          id: string
+          inverso: boolean
+          pergunta_numero: number
+          texto: string
+          traco: string
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          inverso?: boolean
+          pergunta_numero: number
+          texto: string
+          traco: string
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          created_at?: string
+          id?: string
+          inverso?: boolean
+          pergunta_numero?: number
+          texto?: string
+          traco?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      quiz_results: {
+        Row: {
+          arquetipo_nome: string
+          created_at: string
+          id: string
+          niveis_calculados: Json
+          nivel_confianca: string
+          respostas: Json
+          session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          arquetipo_nome: string
+          created_at?: string
+          id?: string
+          niveis_calculados: Json
+          nivel_confianca: string
+          respostas: Json
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          arquetipo_nome?: string
+          created_at?: string
+          id?: string
+          niveis_calculados?: Json
+          nivel_confianca?: string
+          respostas?: Json
+          session_id?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
