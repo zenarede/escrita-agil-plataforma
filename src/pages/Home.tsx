@@ -1,174 +1,232 @@
-
-import Hero from '@/components/Hero';
-import Features from '@/components/Features';
-import Testimonials from '@/components/Testimonials';
-import CourseCard from '@/components/CourseCard';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Target, Briefcase, GraduationCap, Building } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { ArrowRight, Users, Clock, Award, TrendingUp, BookOpen, Target, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const courseTracks = [
+  const stats = [
+    { number: '10+', label: 'Instrutores habilitados', icon: Users },
+    { number: '1.500+', label: 'Alunos felizes', icon: Users },
+    { number: '200h+', label: 'Mentorias realizadas', icon: Clock },
+    { number: '400h+', label: 'Cursos em vídeos', icon: BookOpen }
+  ];
+
+  const services = [
     {
-      icon: Target,
-      title: 'Mercado de Tecnologia',
-      description: 'Desenvolvimento de habilidades para documentação técnica, relatórios de projetos e comunicação eficaz no setor tech.',
-      courses: 12,
-      color: 'bg-primary'
+      title: 'Escrita Ágil - TCC em 30 dias',
+      description: 'Prazo curto e não sabe por onde começar seu TCC? Conheça nosso curso de Escrita ágil e acabe com as noites sem dormir. Com 14 videoaulas, modelos prontos de cada seção e 5 bônus incríveis, conclua seu TCC em até 30 dias!',
+      cta: 'Aproveite já!',
+      buttonText: 'Eu quero',
+      link: '/comprar/tcc-em-30-dias-metodo-agil'
     },
     {
-      icon: Briefcase,
-      title: 'Mercado Financeiro',
-      description: 'Escrita profissional para análises, relatórios financeiros e comunicação corporativa no setor financeiro.',
-      courses: 8,
-      color: 'bg-secondary'
+      title: 'Guia Smart - Preparação para Mestrado',
+      description: 'Conquiste seu sonho de ser mestre com o Guia Smart! Com 12 videoaulas, modelos de projetos de pesquisa e 5 bônus sensacionais, desvende todos os segredos para garantir sua vaga na seleção deste ano!',
+      cta: 'Transforme seu futuro hoje mesmo!',
+      buttonText: 'Eu quero',
+      link: '/comprar/preparacao-para-mestrado'
     },
     {
-      icon: GraduationCap,
-      title: 'Mercado de Educação',
-      description: 'Metodologias de ensino, elaboração de materiais didáticos e comunicação acadêmica eficiente.',
-      courses: 15,
-      color: 'bg-primary'
-    },
-    {
-      icon: Building,
-      title: 'Mercado da Construção Civil',
-      description: 'Elaboração de relatórios técnicos, projetos executivos e documentação para o setor da construção.',
-      courses: 10,
-      color: 'bg-secondary'
+      title: 'Método RAC - E-book Escrita Científica',
+      description: 'Cansado de noites em claro escrevendo trabalhos acadêmicos? O método RAC é a solução! Com 8 capítulos e menos de 6 horas de leitura, testado por +1500 universitários, este e-book ensina a combinar habilidades socioemocionais e técnicas de escrita ágil.',
+      cta: 'Seja você mesmo seu próprio ChatGPT!',
+      buttonText: 'Eu quero',
+      link: '/comprar/metodo-rac-escrita-cientifica'
     }
   ];
 
-  const featuredCourses = [
+  const testimonials = [
     {
-      title: 'TCC em 30 Dias - Método Ágil',
-      description: 'Aprenda a estruturar e escrever seu TCC de forma eficiente e rápida com nossa metodologia exclusiva.',
-      instructor: 'Dr. Ana Silva',
-      duration: '20h',
-      students: 150,
-      rating: 4.9,
-      price: 'R$ 297',
-      category: 'Destaque'
+      text: 'Esse curso deveria ser mais divulgado para os alunos iniciantes na vida acadêmica. É chocante entrar na universidade e perceber que ainda precisam aprender a ler e escrever.',
+      author: 'Lorena',
+      course: 'Aluna de Matemática'
     },
     {
-      title: 'Método RAC - Escrita Científica',
-      description: 'Destrave sua escrita em menos de 6 horas com técnicas comprovadas de produtividade acadêmica.',
-      instructor: 'Prof. Carlos Santos',
-      duration: '6h',
-      students: 200,
-      rating: 5.0,
-      price: 'R$ 97',
-      category: 'Bestseller'
+      text: 'Muito grata por passarem tao bons conhecimentos de forma acessivel e bem feita! Vocês superaram minhas expectativas!',
+      author: 'Luana',
+      course: 'Aluna de pedagogia'
     },
     {
-      title: 'Preparação para Mestrado',
-      description: 'Guia completo para processo seletivo de mestrado, incluindo projeto de pesquisa e carta de motivação.',
-      instructor: 'Dra. Maria Oliveira',
-      duration: '15h',
-      students: 80,
-      rating: 4.8,
-      price: 'R$ 197',
-      category: 'Novo'
+      text: 'Gostei bastante! Bem didático e necessário as temáticas abordadas. Obrigado por disponibilizarem materiais para download, será muito utilizados durante toda a minha vida acadêmica.',
+      author: 'Mauro',
+      course: 'Aluno da engenharia civil'
+    },
+    {
+      text: 'Foi muito bom o curso. Acredito que o material de apoio será, de fato, meu apoio na hora de escrever meus trabalhos da faculdade. Chega de perder noites de sono para escrever meus relatórios. Escrita ágil mesmo!',
+      author: 'Jéssica',
+      course: 'Aluna de Farmácia'
     }
+  ];
+
+  const benefits = [
+    'Método próprio e personalizado',
+    'Apoio para publicação em periódicos de impacto',
+    'Indicação de congressos nacionais e internacionais',
+    'Atendimento humanizado',
+    'Pagamento facilitado e parcelado'
   ];
 
   return (
     <div className="min-h-screen">
-      <Hero />
-      
-      <Features />
-
-      {/* Course Tracks Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Trilhas de Aprendizado
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Escolha a trilha ideal para sua área de atuação e desenvolva habilidades específicas
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-primary via-primary/95 to-secondary min-h-screen flex items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center text-white">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+              Escrita com Ciência
+            </h1>
+            <p className="text-xl sm:text-2xl text-white/90 mb-12 max-w-4xl mx-auto">
+              Ajudamos a escrever mais, melhor e mais rápido seu TCC, dissertação ou tese.
             </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {courseTracks.map((track, index) => (
-              <div key={index} className="bg-white rounded-xl border border-gray-200 p-8 hover:shadow-lg transition-shadow group">
-                <div className="flex items-start space-x-4">
-                  <div className={`${track.color} p-3 rounded-lg`}>
-                    <track.icon className="h-8 w-8 text-white" />
+            
+            {/* Stats */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+              {stats.map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className="flex items-center justify-center mb-2">
+                    <stat.icon className="h-8 w-8 text-white/80 mr-2" />
+                    <span className="text-3xl lg:text-4xl font-bold text-white">
+                      {stat.number}
+                    </span>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-secondary transition-colors">
-                      {track.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4">
-                      {track.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">{track.courses} cursos disponíveis</span>
-                      <Button variant="outline" size="sm" asChild>
-                        <Link to="/cursos">
-                          Explorar
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
+                  <p className="text-white/80 text-sm lg:text-base">
+                    {stat.label}
+                  </p>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-white text-primary hover:bg-white/90" asChild>
+                <Link to="/cursos">Ver Cursos</Link>
+              </Button>
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" asChild>
+                <Link to="/contato">Entre em Contato</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Courses */}
+      {/* Services Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Cursos em Destaque
+              O que podemos fazer por você?
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Nossos cursos mais populares e eficazes para transformar sua escrita
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredCourses.map((course, index) => (
-              <CourseCard key={index} {...course} />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {services.map((service, index) => (
+              <Card key={index} className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                <CardContent className="p-8">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 mb-6 leading-relaxed">
+                    {service.description}
+                  </p>
+                  <div className="mb-6">
+                    <p className="text-primary font-semibold text-lg mb-4">
+                      {service.cta}
+                    </p>
+                  </div>
+                  <Button className="w-full bg-primary hover:bg-primary/90" asChild>
+                    <Link to={service.link}>
+                      {service.buttonText}
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
             ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Button size="lg" asChild>
-              <Link to="/cursos">
-                Ver Todos os Cursos
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
           </div>
         </div>
       </section>
 
-      <Testimonials />
+      {/* Testimonials Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Olha só o que nossos clientes dizem sobre os nossos cursos e serviços:
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <Card key={index} className="h-full">
+                <CardContent className="p-6 flex flex-col justify-between h-full">
+                  <div>
+                    <p className="text-gray-600 italic mb-4 leading-relaxed">
+                      "{testimonial.text}"
+                    </p>
+                  </div>
+                  <div className="border-t pt-4">
+                    <p className="font-semibold text-gray-900">{testimonial.author}</p>
+                    <p className="text-sm text-gray-500">{testimonial.course}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="text-lg font-semibold text-gray-900 mb-2">
+              Depoimentos de nossos mentorados
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Universities Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">
+            Atendemos universitários das principais universidades do país e da comunidade lusófona
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center opacity-60">
+            {/* Placeholder for university logos */}
+            <div className="bg-gray-200 h-20 rounded-lg flex items-center justify-center">
+              <span className="text-gray-500 font-medium">Universidade</span>
+            </div>
+            <div className="bg-gray-200 h-20 rounded-lg flex items-center justify-center">
+              <span className="text-gray-500 font-medium">Universidade</span>
+            </div>
+            <div className="bg-gray-200 h-20 rounded-lg flex items-center justify-center">
+              <span className="text-gray-500 font-medium">Universidade</span>
+            </div>
+            <div className="bg-gray-200 h-20 rounded-lg flex items-center justify-center">
+              <span className="text-gray-500 font-medium">Universidade</span>
+            </div>
+            <div className="bg-gray-200 h-20 rounded-lg flex items-center justify-center">
+              <span className="text-gray-500 font-medium">Universidade</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-secondary to-secondary/90 text-white">
+      <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-            Pronto para transformar sua escrita?
+            VAMOS POTENCIALIZAR SUA PRODUTIVIDADE ACADÊMICA!
           </h2>
-          <p className="text-xl text-white/80 mb-8">
-            Junte-se a mais de 500 estudantes que já conquistaram seus objetivos acadêmicos e profissionais
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
-              <Link to="/cursos">Começar Agora</Link>
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white bg-white/10 hover:bg-white hover:text-secondary" asChild>
-              <Link to="/contato">Falar com Especialista</Link>
-            </Button>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 text-left max-w-3xl mx-auto">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="flex items-center">
+                <div className="w-2 h-2 bg-white rounded-full mr-3 flex-shrink-0"></div>
+                <span className="text-white/90">{benefit}</span>
+              </div>
+            ))}
           </div>
+
+          <Button size="lg" className="bg-white text-primary hover:bg-white/90" asChild>
+            <Link to="/cursos">
+              SIM, QUERO COMPRAR AGORA!
+            </Link>
+          </Button>
         </div>
       </section>
     </div>
