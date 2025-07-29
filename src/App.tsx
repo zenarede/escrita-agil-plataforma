@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { AuthProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -20,7 +21,8 @@ import Welcome from "./pages/Welcome";
 import FAQ from "./pages/FAQ";
 import Purchase from "./pages/Purchase";
 import NotFound from "./pages/NotFound";
-import ZodiacoProfissional from "./pages/ZodiacoProfissional";
+const ZodiacoProfissional = lazy(() => import('./pages/ZodiacoProfissional'));
+const ZodiacoResultado = lazy(() => import('./pages/ZodiacoResultado'));
 
 const queryClient = new QueryClient();
 
@@ -47,7 +49,26 @@ const App = () => (
                 <Route path="/profile-setup" element={<ProfileSetup />} />
                 <Route path="/welcome" element={<Welcome />} />
                 <Route path="/faq" element={<FAQ />} />
-                <Route path="/zodiaco-profissional" element={<ZodiacoProfissional />} />
+                <Route path="/zodiaco-profissional" element={
+                  <Suspense fallback={<div className="min-h-screen bg-gradient-to-br from-background to-accent/20 flex items-center justify-center pt-20">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                      <p className="text-muted-foreground">Carregando...</p>
+                    </div>
+                  </div>}>
+                    <ZodiacoProfissional />
+                  </Suspense>
+                } />
+                <Route path="/zodiaco-resultado" element={
+                  <Suspense fallback={<div className="min-h-screen bg-gradient-to-br from-background to-accent/20 flex items-center justify-center pt-20">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                      <p className="text-muted-foreground">Carregando...</p>
+                    </div>
+                  </div>}>
+                    <ZodiacoResultado />
+                  </Suspense>
+                } />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

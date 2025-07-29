@@ -112,8 +112,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         profile.study_interests?.length > 0 && 
         profile.qualifications?.length > 0;
       
-      // Get stored return URL or default destinations
-      const returnTo = localStorage.getItem('authReturnTo');
+      // Get stored return URL from sessionStorage or localStorage
+      const returnTo = sessionStorage.getItem('redirectAfterLogin') || localStorage.getItem('authReturnTo');
+      sessionStorage.removeItem('redirectAfterLogin'); // Clean up
       localStorage.removeItem('authReturnTo'); // Clean up
       
       // Redirect logic for successful login

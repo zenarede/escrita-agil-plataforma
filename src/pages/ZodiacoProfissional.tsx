@@ -99,11 +99,9 @@ export default function ZodiacoProfissional() {
   };
 
   const handleLogin = () => {
-    // TODO: Implementar modal de login ou redirecionamento
-    toast({
-      title: "Login necessário",
-      description: "Funcionalidade de login será implementada em breve.",
-    });
+    // Salvar a rota atual para retornar após o login
+    sessionStorage.setItem('redirectAfterLogin', '/zodiaco-profissional');
+    window.location.href = '/login';
   };
 
   if (loadingQuestions || loadingArquetipos) {

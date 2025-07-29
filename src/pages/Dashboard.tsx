@@ -226,7 +226,7 @@ const Dashboard = () => {
                     ))}
                   </div>
                 </div>
-                <Link to="/zodiaco-profissional">
+                <Link to="/zodiaco-resultado">
                   <Button variant="outline" size="sm">
                     Ver Detalhes
                   </Button>
