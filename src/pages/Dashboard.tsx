@@ -256,10 +256,12 @@ const Dashboard = () => {
                   <p className="text-sm text-muted-foreground mb-4">
                     Você ainda não tem acesso a nenhum curso. Adquira um curso para começar sua jornada científica!
                   </p>
-                  <Button onClick={() => {
-                    const tab = document.querySelector('[data-value="available"]') as HTMLButtonElement;
-                    tab?.click();
-                  }}>
+                   <Button onClick={() => {
+                     const tab = document.querySelector('[data-value="available"]') as HTMLButtonElement;
+                     if (tab) {
+                       tab.click();
+                     }
+                   }}>
                     Ver Cursos Disponíveis
                   </Button>
                 </CardContent>
