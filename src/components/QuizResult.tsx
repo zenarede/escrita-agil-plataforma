@@ -15,6 +15,7 @@ interface QuizResultProps {
 }
 
 export function QuizResult({ result, onUpgrade, onLogin }: QuizResultProps) {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { data: userProfile } = useUserAccess();
   
