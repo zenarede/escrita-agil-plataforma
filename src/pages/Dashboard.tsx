@@ -12,9 +12,7 @@ import { useUserProgress } from '@/hooks/useUserProgress';
 import { useUserQuizResult } from '@/hooks/useUserQuizResult';
 import { useUserRanking } from '@/hooks/useUserRanking';
 import { CourseProgress } from '@/components/CourseProgress';
-import { PointsDisplay } from '@/components/PointsDisplay';
-import { GlobalRanking } from '@/components/GlobalRanking';
-import { AchievementBadges } from '@/components/AchievementBadges';
+import { RankingModal } from '@/components/RankingModal';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
 
@@ -244,36 +242,47 @@ const Dashboard = () => {
           </Card>
         )}
 
-        {/* Sistema de Gamificação */}
+        {/* Ranking e Conquistas */}
         {!progressLoading && overallProgress.totalVideos > 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            {/* Pontuação e Nível do Usuário */}
-            <div className="lg:col-span-1">
-              <PointsDisplay
-                totalPoints={userPoints.totalPoints}
-                videoPoints={userPoints.videoPoints}
-                coursePoints={userPoints.coursePoints}
-                level={userPoints.level}
-                levelColor={userPoints.levelColor}
-                pointsToNextLevel={userPoints.pointsToNextLevel}
-                levelProgress={userPoints.levelProgress}
-              />
-            </div>
-
-            {/* Ranking Global */}
-            <div className="lg:col-span-1">
-              <GlobalRanking
-                ranking={globalRanking}
-                userRank={userRank}
-                loading={rankingLoading}
-              />
-            </div>
-
-            {/* Conquistas */}
-            <div className="lg:col-span-1">
-              <AchievementBadges achievements={achievements} />
-            </div>
-          </div>
+          <RankingModal>
+            <Card className="mb-8 cursor-pointer hover:shadow-lg transition-shadow group">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white">
+                      <Award className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground font-aristotelica">
+                        Ranking e Conquistas
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Veja sua pontuação, nível e conquistas desbloqueadas
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Badge 
+                        variant="secondary" 
+                        className={`bg-gradient-to-r ${
+                          userPoints.levelColor === 'purple' ? 'from-purple-500 to-purple-600' :
+                          userPoints.levelColor === 'orange' ? 'from-orange-500 to-orange-600' :
+                          userPoints.levelColor === 'blue' ? 'from-blue-500 to-blue-600' :
+                          userPoints.levelColor === 'green' ? 'from-green-500 to-green-600' :
+                          'from-slate-500 to-slate-600'
+                        } text-white border-0`}
+                      >
+                        {userPoints.level}
+                      </Badge>
+                    </div>
+                    <p className="text-2xl font-bold text-foreground">{userPoints.totalPoints}</p>
+                    <p className="text-xs text-muted-foreground">pontos totais</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </RankingModal>
         )}
 
         {/* Main Content */}
