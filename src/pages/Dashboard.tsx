@@ -10,15 +10,20 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useUserAccess } from '@/hooks/useUserAccess';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { useUserQuizResult } from '@/hooks/useUserQuizResult';
+import { useUserRanking } from '@/hooks/useUserRanking';
 import { CourseProgress } from '@/components/CourseProgress';
+import { PointsDisplay } from '@/components/PointsDisplay';
+import { GlobalRanking } from '@/components/GlobalRanking';
+import { AchievementBadges } from '@/components/AchievementBadges';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { data: userProfile } = useUserAccess();
-  const { getOverallProgress, getCourseProgress, loading: progressLoading } = useUserProgress();
+  const { getOverallProgress, getCourseProgress, calculateUserPoints, loading: progressLoading } = useUserProgress();
   const { data: userQuizResult } = useUserQuizResult();
+  const { globalRanking, userRank, achievements, loading: rankingLoading } = useUserRanking();
   const [availableCourses, setAvailableCourses] = useState<any[]>([]);
 
   useEffect(() => {
@@ -54,6 +59,7 @@ const Dashboard = () => {
   const availableForPurchase = availableCourses.filter(course => !course.hasAccess);
   
   const overallProgress = getOverallProgress();
+  const userPoints = calculateUserPoints();
 
   const stats = [
     { 
@@ -236,6 +242,38 @@ const Dashboard = () => {
               </Link>
             </CardContent>
           </Card>
+        )}
+
+        {/* Sistema de Gamificação */}
+        {!progressLoading && overallProgress.totalVideos > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            {/* Pontuação e Nível do Usuário */}
+            <div className="lg:col-span-1">
+              <PointsDisplay
+                totalPoints={userPoints.totalPoints}
+                videoPoints={userPoints.videoPoints}
+                coursePoints={userPoints.coursePoints}
+                level={userPoints.level}
+                levelColor={userPoints.levelColor}
+                pointsToNextLevel={userPoints.pointsToNextLevel}
+                levelProgress={userPoints.levelProgress}
+              />
+            </div>
+
+            {/* Ranking Global */}
+            <div className="lg:col-span-1">
+              <GlobalRanking
+                ranking={globalRanking}
+                userRank={userRank}
+                loading={rankingLoading}
+              />
+            </div>
+
+            {/* Conquistas */}
+            <div className="lg:col-span-1">
+              <AchievementBadges achievements={achievements} />
+            </div>
+          </div>
         )}
 
         {/* Main Content */}
