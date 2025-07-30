@@ -54,7 +54,7 @@ const ChatWidget: React.FC = () => {
 
       {/* Widget do chat */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-40 w-80 h-96 md:w-96 md:h-[500px]">
+        <div className="fixed bottom-24 right-6 z-40 w-96 h-[500px] md:w-[480px] md:h-[700px]">
           <Card className="h-full flex flex-col bg-background border shadow-xl">
             {/* Header do chat */}
             <div className="flex items-center justify-between p-4 border-b bg-primary text-primary-foreground">
@@ -64,7 +64,7 @@ const ChatWidget: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold text-sm">Darcy</h3>
-                  <p className="text-xs opacity-90">Assistente Virtual</p>
+                  <p className="text-xs opacity-90">Assistente de IA Virtual</p>
                 </div>
               </div>
               {user && (
@@ -102,10 +102,23 @@ const ChatWidget: React.FC = () => {
                 {/* Área de mensagens */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-4">
                   {messages.length === 0 && (
-                    <div className="text-center text-muted-foreground text-sm py-8">
+                    <div className="text-center text-muted-foreground text-sm py-6">
                       <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                      <p>Olá! Sou a Darcy 👋</p>
-                      <p>Como posso te ajudar hoje?</p>
+                      <p className="font-semibold mb-3">Olá! Sou a Darcy 👋</p>
+                      <p className="mb-4">Como posso te ajudar hoje?</p>
+                      
+                      {/* Tags de funcionalidades */}
+                      <div className="flex flex-wrap gap-2 justify-center mb-4">
+                        <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+                          Encontrar aulas
+                        </span>
+                        <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+                          Dúvidas de aulas
+                        </span>
+                        <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+                          Dúvidas da plataforma
+                        </span>
+                      </div>
                     </div>
                   )}
 
