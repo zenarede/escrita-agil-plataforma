@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Trash2, Lock } from 'lucide-react';
+import { MessageCircle, X, Send, Trash2, Lock, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { useDarcyChat } from '@/hooks/useDarcyChat';
 import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
+import darcyLogo from '@/assets/darcy-logo.png';
 
 const ChatWidget: React.FC = () => {
   const { user, loading } = useAuth();
@@ -45,22 +46,34 @@ const ChatWidget: React.FC = () => {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={toggleChat}
-          className="h-14 w-14 rounded-full bg-primary hover:bg-primary/90 shadow-lg"
+          className="h-16 w-16 rounded-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg transition-all duration-300 hover:scale-105"
           size="icon"
         >
-          {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+          {isOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <div className="relative">
+              <MessageCircle className="h-6 w-6" />
+              <Sparkles className="h-3 w-3 absolute -top-1 -right-1 text-yellow-300" />
+            </div>
+          )}
         </Button>
       </div>
 
       {/* Widget do chat */}
       {isOpen && (
         <div className="fixed bottom-24 right-6 z-40 w-96 h-[500px] md:w-[480px] md:h-[700px]">
-          <Card className="h-full flex flex-col bg-background border shadow-xl">
+          <Card className="h-full flex flex-col bg-background border shadow-xl rounded-xl overflow-hidden">
             {/* Header do chat */}
-            <div className="flex items-center justify-between p-4 border-b bg-primary text-primary-foreground">
+            <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-primary to-primary/90 text-primary-foreground">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-primary-foreground/20 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-semibold">D</span>
+                <div className="relative">
+                  <img 
+                    src={darcyLogo} 
+                    alt="Darcy Logo" 
+                    className="w-10 h-10 rounded-full bg-white/10 p-1"
+                  />
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
                 </div>
                 <div>
                   <h3 className="font-semibold text-sm">Darcy</h3>
@@ -136,9 +149,11 @@ const ChatWidget: React.FC = () => {
                       >
                         {!message.isUser && (
                           <div className="flex items-center space-x-2 mb-1">
-                            <div className="w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center">
-                              <span className="text-xs font-semibold text-primary">D</span>
-                            </div>
+                            <img 
+                              src={darcyLogo} 
+                              alt="Darcy" 
+                              className="w-5 h-5 rounded-full"
+                            />
                             <span className="text-xs font-medium text-primary">Darcy</span>
                           </div>
                         )}
@@ -158,9 +173,11 @@ const ChatWidget: React.FC = () => {
                     <div className="flex justify-start">
                       <div className="bg-muted p-3 rounded-lg text-sm max-w-[80%]">
                         <div className="flex items-center space-x-2 mb-1">
-                          <div className="w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center">
-                            <span className="text-xs font-semibold text-primary">D</span>
-                          </div>
+                          <img 
+                            src={darcyLogo} 
+                            alt="Darcy" 
+                            className="w-5 h-5 rounded-full"
+                          />
                           <span className="text-xs font-medium text-primary">Darcy</span>
                         </div>
                         <div className="flex space-x-1">
