@@ -167,7 +167,7 @@ export default function ZodiacoProfissional() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
                 <div className="text-left">
                   <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-                    O que você <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">nasceu para fazer</span>?
+                    O que você <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">nasceu para fazer </span>?
                   </h1>
                   <p className="text-xl text-muted-foreground mb-8 leading-relaxed">Em 2 minutos, descubra sua vocação com base na ciência e veja quais caminhos profissionais realmente combinam com você.</p>
                   
@@ -197,9 +197,7 @@ export default function ZodiacoProfissional() {
                     <Brain className="h-7 w-7 text-blue-600" />
                   </div>
                   <h3 className="font-bold text-xl mb-3 text-foreground">Científico</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Fundado no modelo Big Five — o mesmo usado por recrutadores e psicólogos do mundo todo.
-                  </p>
+                  <p className="text-muted-foreground leading-relaxed">Fundado no modelo Big Five o mesmo usado por recrutadores e psicólogos do mundo todo.</p>
                 </div>
                 
                 <div className="bg-card rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center border">
