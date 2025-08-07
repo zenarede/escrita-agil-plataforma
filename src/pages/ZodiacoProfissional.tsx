@@ -331,12 +331,12 @@ export default function ZodiacoProfissional() {
                         </span>
                       </div>
                       
-                       <div className="relative">
-                         <Progress 
-                           value={progress} 
-                           className="h-4 w-full bg-secondary"
-                         />
-                       </div>
+                        <div className="relative">
+                          <Progress 
+                            value={progress} 
+                            className="h-4 w-full"
+                          />
+                        </div>
                     </div>
                   </CardContent>
                 </Card>
