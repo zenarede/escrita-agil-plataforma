@@ -146,8 +146,96 @@ export default function ZodiacoProfissional() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-accent/5 pt-20">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-br from-background to-accent/5 pt-20 relative overflow-hidden">
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Zodiac Constellations */}
+        <div className="absolute top-20 left-10 opacity-10 text-primary">
+          <svg width="60" height="60" viewBox="0 0 60 60" className="animate-pulse">
+            <circle cx="10" cy="10" r="1" fill="currentColor" />
+            <circle cx="30" cy="15" r="1.5" fill="currentColor" />
+            <circle cx="50" cy="20" r="1" fill="currentColor" />
+            <circle cx="15" cy="35" r="1" fill="currentColor" />
+            <circle cx="45" cy="40" r="1.5" fill="currentColor" />
+            <circle cx="25" cy="50" r="1" fill="currentColor" />
+            <path d="M10 10 L30 15 L50 20 M15 35 L25 50 L45 40" stroke="currentColor" strokeWidth="0.5" opacity="0.7"/>
+          </svg>
+        </div>
+        
+        <div className="absolute top-40 right-20 opacity-10 text-secondary">
+          <svg width="80" height="80" viewBox="0 0 80 80" className="animate-pulse" style={{animationDelay: "1s"}}>
+            <circle cx="20" cy="20" r="1.5" fill="currentColor" />
+            <circle cx="40" cy="10" r="1" fill="currentColor" />
+            <circle cx="60" cy="25" r="1.5" fill="currentColor" />
+            <circle cx="30" cy="45" r="1" fill="currentColor" />
+            <circle cx="50" cy="60" r="1.5" fill="currentColor" />
+            <path d="M20 20 L40 10 L60 25 M30 45 L50 60" stroke="currentColor" strokeWidth="0.5" opacity="0.7"/>
+          </svg>
+        </div>
+
+        {/* Professional Icons Scattered */}
+        <div className="absolute top-60 left-20 opacity-8 text-muted-foreground">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-fade-in">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+
+        <div className="absolute top-80 right-40 opacity-8 text-muted-foreground">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-fade-in" style={{animationDelay: "0.5s"}}>
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="m22 7-10 5L2 7"/>
+          </svg>
+        </div>
+
+        <div className="absolute bottom-40 left-40 opacity-8 text-muted-foreground">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-fade-in" style={{animationDelay: "1.5s"}}>
+            <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            <rect x="4" y="20" width="16" height="2" rx="1"/>
+            <rect x="8" y="6" width="8" height="2" rx="1"/>
+            <rect x="8" y="10" width="8" height="2" rx="1"/>
+            <rect x="8" y="14" width="5" height="2" rx="1"/>
+          </svg>
+        </div>
+
+        {/* Zodiac Symbols */}
+        <div className="absolute top-96 right-10 opacity-6 text-primary/50 text-2xl font-serif animate-fade-in" style={{animationDelay: "2s"}}>
+          ♈ ♊ ♌
+        </div>
+        
+        <div className="absolute bottom-60 left-10 opacity-6 text-secondary/50 text-2xl font-serif animate-fade-in" style={{animationDelay: "2.5s"}}>
+          ♏ ♐ ♓
+        </div>
+
+        {/* More Professional Elements */}
+        <div className="absolute top-32 right-60 opacity-8 text-muted-foreground">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-fade-in" style={{animationDelay: "3s"}}>
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12,6 12,12 16,14"/>
+          </svg>
+        </div>
+
+        <div className="absolute bottom-20 right-20 opacity-8 text-muted-foreground">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-fade-in" style={{animationDelay: "3.5s"}}>
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+
+        {/* Subtle Career Path Lines */}
+        <div className="absolute inset-0 opacity-5">
+          <svg width="100%" height="100%" className="absolute inset-0">
+            <defs>
+              <pattern id="career-grid" width="100" height="100" patternUnits="userSpaceOnUse">
+                <path d="M 100 0 L 0 0 0 100" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-primary"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#career-grid)" />
+          </svg>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         {/* Hero Section - only show when quiz hasn't started */}
         {respostas.length === 0 && (
           <div className="py-12">
