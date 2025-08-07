@@ -10,7 +10,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { Brain, Star, Users, TrendingUp, Target, Sparkles, Clock } from 'lucide-react';
 import type { QuizResult as QuizResultType } from '@/utils/quizCalculator';
-import personasImage from '@/assets/professional-personas.jpg';
+import studentImage from '@/assets/student-professional.jpg';
 
 export default function ZodiacoProfissional() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -146,81 +146,97 @@ export default function ZodiacoProfissional() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 pt-20">
+    <div className="min-h-screen bg-gradient-to-br from-background to-accent/5 pt-20">
       <div className="container mx-auto px-4">
         {/* Hero Section - only show when quiz hasn't started */}
         {respostas.length === 0 && (
-          <div className="py-16">
+          <div className="py-12">
             <div className="max-w-6xl mx-auto">
-              {/* Main Hero */}
-              <div className="text-center mb-16">
-                <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
-                  O que você <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">nasceu para fazer</span>?
-                </h1>
-                <p className="text-2xl text-gray-600 mb-8 max-w-4xl mx-auto leading-relaxed">
-                  Em 2 minutos, descubra sua vocação com base na ciência — e veja quais caminhos profissionais realmente combinam com você.
-                </p>
+              {/* Main Hero with Image */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                <div className="text-left">
+                  <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
+                    O que você <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">nasceu para fazer</span>?
+                  </h1>
+                  <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+                    Em 2 minutos, descubra sua vocação com base na ciência — e veja quais caminhos profissionais realmente combinam com você.
+                  </p>
+                  
+                  {/* CTA Button */}
+                  <div className="mb-8">
+                    <Button 
+                      onClick={() => {
+                        const firstQuestion = document.getElementById('quiz-start');
+                        firstQuestion?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      size="lg"
+                      className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground font-semibold px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                    >
+                      <Sparkles className="mr-2 h-5 w-5" />
+                      Começar Meu Zodíaco Profissional
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="text-center">
+                  <img 
+                    src={studentImage} 
+                    alt="Estudante descobrindo sua vocação profissional" 
+                    className="rounded-2xl shadow-2xl w-full max-w-lg mx-auto"
+                  />
+                </div>
               </div>
 
               {/* Benefits Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
-                    <Brain className="h-8 w-8 text-blue-600" />
+                <div className="bg-card rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center border">
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+                    <Brain className="h-7 w-7 text-blue-600" />
                   </div>
-                  <h3 className="font-bold text-2xl mb-4 text-gray-900">Científico</h3>
-                  <p className="text-gray-600 leading-relaxed text-lg">
+                  <h3 className="font-bold text-xl mb-3 text-foreground">Científico</h3>
+                  <p className="text-muted-foreground leading-relaxed">
                     Fundado no modelo Big Five — o mesmo usado por recrutadores e psicólogos do mundo todo.
                   </p>
                 </div>
                 
-                <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
-                    <Clock className="h-8 w-8 text-green-600" />
+                <div className="bg-card rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center border">
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
+                    <Clock className="h-7 w-7 text-green-600" />
                   </div>
-                  <h3 className="font-bold text-2xl mb-4 text-gray-900">Rápido</h3>
-                  <p className="text-gray-600 leading-relaxed text-lg">
+                  <h3 className="font-bold text-xl mb-3 text-foreground">Rápido</h3>
+                  <p className="text-muted-foreground leading-relaxed">
                     12 perguntas. 2 minutos. E um mapa claro de onde você pode brilhar profissionalmente.
                   </p>
                 </div>
                 
-                <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
-                    <Target className="h-8 w-8 text-purple-600" />
+                <div className="bg-card rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center border">
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
+                    <Target className="h-7 w-7 text-purple-600" />
                   </div>
-                  <h3 className="font-bold text-2xl mb-4 text-gray-900">Personalizado</h3>
-                  <p className="text-gray-600 leading-relaxed text-lg">
+                  <h3 className="font-bold text-xl mb-3 text-foreground">Personalizado</h3>
+                  <p className="text-muted-foreground leading-relaxed">
                     Receba ideias de cursos e carreiras que combinam com você. Do seu jeito. No seu tempo.
                   </p>
                 </div>
               </div>
 
-              {/* Professional Personas Image */}
-              <div className="text-center mb-16">
-                <img 
-                  src={personasImage} 
-                  alt="Diferentes perfis profissionais" 
-                  className="mx-auto rounded-2xl shadow-2xl max-w-2xl w-full"
-                />
-              </div>
-
               {/* Testimonials */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg mb-16">
-                <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">
+              <div className="bg-card rounded-2xl p-8 shadow-lg mb-12 border">
+                <h3 className="text-2xl font-bold text-foreground text-center mb-8">
                   O que quem já fez o teste diz:
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="text-center">
-                    <p className="text-gray-600 italic text-lg mb-4">
+                    <p className="text-muted-foreground italic text-lg mb-4">
                       "Nunca imaginei que minha vocação estivesse tão longe da área em que estudei. Foi um choque bom."
                     </p>
-                    <p className="font-semibold text-gray-900">Camila, 27 anos</p>
+                    <p className="font-semibold text-foreground">Camila, 27 anos</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-gray-600 italic text-lg mb-4">
+                    <p className="text-muted-foreground italic text-lg mb-4">
                       "O teste me mostrou exatamente onde eu poderia usar meus pontos fortes. Mudou minha perspectiva de carreira."
                     </p>
-                    <p className="font-semibold text-gray-900">Rafael, 32 anos</p>
+                    <p className="font-semibold text-foreground">Rafael, 32 anos</p>
                   </div>
                 </div>
               </div>
@@ -228,47 +244,58 @@ export default function ZodiacoProfissional() {
           </div>
         )}
 
-        {/* CTA forte antes do teste */}
-        {questions && questions.length > 0 && respostas.length === 0 && (
-          <div className="max-w-4xl mx-auto mb-12">
-            <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-8 text-center text-white shadow-xl">
-              <h2 className="text-3xl font-bold mb-4 flex items-center justify-center">
-                <Target className="mr-3 h-8 w-8" />
-                Pronto para descobrir sua profissão ideal?
-              </h2>
-              <p className="text-xl mb-6 opacity-90">
-                Responda abaixo e receba seu perfil com recomendações personalizadas!
-              </p>
-            </div>
-          </div>
-        )}
+        {/* Quiz Start Section */}
+        <div id="quiz-start" className="py-8">
+          <div className="max-w-4xl mx-auto">
+            {/* CTA forte antes do teste */}
+            {questions && questions.length > 0 && (
+              <div className="mb-8">
+                <div className="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 text-center text-primary-foreground shadow-xl">
+                  <h2 className="text-3xl font-bold mb-4 flex items-center justify-center">
+                    <Target className="mr-3 h-8 w-8" />
+                    Pronto para descobrir sua profissão ideal?
+                  </h2>
+                  <p className="text-xl mb-6 opacity-90">
+                    Responda abaixo e receba seu perfil com recomendações personalizadas!
+                  </p>
+                  {respostas.length === 0 && (
+                    <Button 
+                      onClick={() => setCurrentQuestion(0)}
+                      variant="secondary"
+                      size="lg"
+                      className="bg-background text-foreground hover:bg-background/90 font-semibold px-8 py-3"
+                    >
+                      Iniciar Teste Agora
+                    </Button>
+                  )}
+                </div>
+              </div>
+            )}
 
-        {/* Quiz Section */}
-        <div className="py-8">
-          <div className="max-w-3xl mx-auto">
-            {questions && questions.length > 0 && respostas.length > 0 && (
+            {/* Quiz Questions */}
+            {questions && questions.length > 0 && currentQuestion >= 0 && (
               <>
                 {/* Fixed Header with Progress Bar */}
-                <Card className="mb-8 shadow-lg border-0 bg-white">
+                <Card className="mb-8 shadow-lg bg-card border">
                   <CardContent className="p-6">
                     <div className="flex justify-between items-center mb-6">
-                      <h2 className="text-2xl font-bold text-gray-900">
+                      <h2 className="text-2xl font-bold text-foreground">
                         Seu Perfil Profissional
                       </h2>
                       <div className="text-right">
-                        <span className="text-3xl font-bold text-blue-700">
+                        <span className="text-3xl font-bold text-primary">
                           {Math.round(progress)}%
                         </span>
-                        <p className="text-sm text-gray-600">concluído</p>
+                        <p className="text-sm text-muted-foreground">concluído</p>
                       </div>
                     </div>
                     
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
-                        <span className="text-lg font-medium text-gray-700">
+                        <span className="text-lg font-medium text-foreground">
                           Pergunta {currentQuestion + 1} de {totalQuestions}
                         </span>
-                        <span className="text-blue-600 font-medium">
+                        <span className="text-primary font-medium">
                           🚀 Falta pouco para você descobrir sua melhor versão profissional!
                         </span>
                       </div>
@@ -276,7 +303,7 @@ export default function ZodiacoProfissional() {
                       <div className="relative">
                         <Progress 
                           value={progress} 
-                          className="h-4 bg-gray-200 shadow-inner"
+                          className="h-4"
                         />
                       </div>
                     </div>
@@ -284,7 +311,7 @@ export default function ZodiacoProfissional() {
                 </Card>
 
                 {/* Question */}
-                <Card className="mb-8 shadow-xl border-0 bg-white hover:shadow-2xl transition-shadow duration-300">
+                <Card className="mb-8 shadow-xl bg-card border hover:shadow-2xl transition-shadow duration-300">
                   <CardContent className="p-8">
                     <QuizQuestion
                       question={questions[currentQuestion]}
@@ -301,7 +328,7 @@ export default function ZodiacoProfissional() {
                       onClick={goToPrevious}
                       variant="outline"
                       disabled={currentQuestion === 0}
-                      className="px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed border-gray-300"
+                      className="px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Anterior
                     </Button>
@@ -309,14 +336,14 @@ export default function ZodiacoProfissional() {
                     {currentQuestion < totalQuestions - 1 ? (
                       <Button 
                         onClick={goToNext}
-                        className="px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
+                        className="px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground"
                       >
                         Próxima
                       </Button>
                     ) : (
                       <Button 
                         onClick={() => finalizarTeste(respostas)}
-                        className="px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white"
+                        className="px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground"
                       >
                         Finalizar Teste
                       </Button>
