@@ -147,66 +147,132 @@ export default function ZodiacoProfissional() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-accent/5 pt-20 relative overflow-hidden">
-      {/* Background sutil com elementos zodiacais e profissionais elegantes */}
+      {/* Background temático: Zodíaco Profissional */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Padrão de estrelas minimalista */}
-        <div 
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage: `radial-gradient(circle at 25% 25%, hsl(var(--primary)) 1px, transparent 1px),
-                             radial-gradient(circle at 75% 75%, hsl(var(--primary)) 0.8px, transparent 0.8px),
-                             radial-gradient(circle at 50% 10%, hsl(var(--primary)) 0.5px, transparent 0.5px)`,
-            backgroundSize: '140px 140px, 100px 100px, 180px 180px',
-            backgroundPosition: '0 0, 70px 70px, 140px 0'
-          }}
-        />
+        {/* Gradiente base com tema celestial-profissional */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/[0.015]" />
         
-        {/* Constelação principal - caminho de crescimento profissional */}
-        <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 opacity-[0.04]">
-          <svg width="400" height="160" viewBox="0 0 400 160" className="text-primary">
-            {/* Estrelas principais formando um caminho ascendente */}
-            <circle cx="50" cy="120" r="2" fill="currentColor" className="animate-pulse" style={{animationDelay: "0s"}} />
-            <circle cx="120" cy="100" r="1.5" fill="currentColor" className="animate-pulse" style={{animationDelay: "0.8s"}} />
-            <circle cx="200" cy="70" r="2" fill="currentColor" className="animate-pulse" style={{animationDelay: "1.6s"}} />
-            <circle cx="280" cy="50" r="1.8" fill="currentColor" className="animate-pulse" style={{animationDelay: "2.4s"}} />
-            <circle cx="350" cy="30" r="2.2" fill="currentColor" className="animate-pulse" style={{animationDelay: "3.2s"}} />
+        {/* Constelação Principal: "Carreira Ascendente" */}
+        <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 opacity-[0.06]">
+          <svg width="500" height="200" viewBox="0 0 500 200" className="text-primary">
+            {/* Estrelas formando uma escada de crescimento profissional */}
+            <circle cx="80" cy="160" r="2.5" fill="currentColor" className="animate-pulse" style={{animationDelay: "0s"}} />
+            <circle cx="140" cy="130" r="2" fill="currentColor" className="animate-pulse" style={{animationDelay: "0.7s"}} />
+            <circle cx="200" cy="100" r="2.5" fill="currentColor" className="animate-pulse" style={{animationDelay: "1.4s"}} />
+            <circle cx="260" cy="70" r="2" fill="currentColor" className="animate-pulse" style={{animationDelay: "2.1s"}} />
+            <circle cx="320" cy="40" r="2.5" fill="currentColor" className="animate-pulse" style={{animationDelay: "2.8s"}} />
+            <circle cx="380" cy="20" r="3" fill="currentColor" className="animate-pulse" style={{animationDelay: "3.5s"}} />
             
-            {/* Linha conectora representando crescimento */}
+            {/* Linha ascendente representando crescimento */}
             <path 
-              d="M50 120 Q120 100 200 70 Q280 50 350 30" 
+              d="M80 160 Q140 130 200 100 Q260 70 320 40 Q380 20 420 10" 
               stroke="currentColor" 
-              strokeWidth="0.8" 
+              strokeWidth="1" 
               fill="none"
-              strokeDasharray="3,3"
-              opacity="0.3"
+              strokeDasharray="4,4"
+              opacity="0.4"
+              className="animate-pulse"
+              style={{animationDelay: "4s"}}
             />
+            
+            {/* Pequenas estrelas de apoio formando o conceito de "descoberta" */}
+            <circle cx="100" cy="180" r="1" fill="currentColor" opacity="0.6" />
+            <circle cx="160" cy="150" r="1" fill="currentColor" opacity="0.6" />
+            <circle cx="220" cy="120" r="1" fill="currentColor" opacity="0.6" />
+            <circle cx="280" cy="90" r="1" fill="currentColor" opacity="0.6" />
+            <circle cx="340" cy="60" r="1" fill="currentColor" opacity="0.6" />
           </svg>
         </div>
 
-        {/* Símbolos zodiacais estrategicamente posicionados */}
-        <div className="absolute top-20 left-12 text-5xl opacity-[0.02] font-light select-none">♈</div>
-        <div className="absolute top-80 right-16 text-4xl opacity-[0.025] font-light select-none">♌</div>
-        <div className="absolute bottom-40 left-20 text-4xl opacity-[0.02] font-light select-none">♑</div>
-        <div className="absolute bottom-80 right-12 text-5xl opacity-[0.025] font-light select-none">♎</div>
-        
-        {/* Elementos geométricos minimalistas representando estrutura profissional */}
-        <div className="absolute top-60 right-1/3 opacity-[0.03]">
-          <div className="w-8 h-8 border border-current rounded transform rotate-45"></div>
-        </div>
-        <div className="absolute bottom-60 left-1/3 opacity-[0.025]">
-          <div className="w-6 h-6 border border-current rounded-full"></div>
+        {/* Símbolos zodiacais estratégicos que "evoluem" para ícones profissionais */}
+        <div className="absolute top-16 left-16 opacity-[0.03]">
+          <div className="relative">
+            <span className="text-6xl font-light">♈</span>
+            <div className="absolute -right-8 -bottom-2 text-2xl opacity-60">→</div>
+            <div className="absolute -right-16 -bottom-4 w-8 h-8 border border-current rounded opacity-40"></div>
+          </div>
         </div>
         
-        {/* Grade sutil de oportunidades */}
-        <div className="absolute inset-0 opacity-[0.008]">
-          <svg width="100%" height="100%">
-            <defs>
-              <pattern id="opportunity-grid" width="120" height="120" patternUnits="userSpaceOnUse">
-                <circle cx="60" cy="60" r="0.5" fill="hsl(var(--primary))" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#opportunity-grid)" />
+        <div className="absolute top-32 right-20 opacity-[0.03]">
+          <div className="relative">
+            <span className="text-5xl font-light">♌</span>
+            <div className="absolute -left-8 -bottom-2 text-2xl opacity-60">←</div>
+            <div className="absolute -left-16 -bottom-4 w-6 h-6 border border-current rounded-full opacity-40"></div>
+          </div>
+        </div>
+        
+        <div className="absolute bottom-32 left-24 opacity-[0.03]">
+          <div className="relative">
+            <span className="text-6xl font-light">♑</span>
+            <div className="absolute -right-8 top-2 text-2xl opacity-60">→</div>
+            <div className="absolute -right-16 top-0 w-8 h-6 border border-current rounded opacity-40"></div>
+          </div>
+        </div>
+        
+        <div className="absolute bottom-16 right-16 opacity-[0.03]">
+          <div className="relative">
+            <span className="text-5xl font-light">♎</span>
+            <div className="absolute -left-8 top-2 text-2xl opacity-60">←</div>
+            <div className="absolute -left-16 top-0 w-6 h-8 border border-current rounded opacity-40"></div>
+          </div>
+        </div>
+
+        {/* Padrão de "descoberta vocacional" - pontos conectados como mapa astral profissional */}
+        <div 
+          className="absolute inset-0 opacity-[0.008]"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 20% 20%, hsl(var(--primary)) 1px, transparent 1px),
+              radial-gradient(circle at 80% 40%, hsl(var(--primary)) 0.8px, transparent 0.8px),
+              radial-gradient(circle at 40% 80%, hsl(var(--primary)) 1.2px, transparent 1.2px),
+              radial-gradient(circle at 90% 90%, hsl(var(--primary)) 0.6px, transparent 0.6px)
+            `,
+            backgroundSize: '200px 200px, 150px 150px, 180px 180px, 120px 120px',
+            backgroundPosition: '0 0, 100px 50px, 50px 100px, 150px 150px'
+          }}
+        />
+        
+        {/* Constelações menores representando diferentes áreas profissionais */}
+        <div className="absolute top-80 left-1/4 opacity-[0.04]">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            {/* Área de Tecnologia */}
+            <circle cx="20" cy="20" r="1.5" fill="hsl(var(--primary))" />
+            <circle cx="40" cy="30" r="1" fill="hsl(var(--primary))" />
+            <circle cx="60" cy="25" r="1.5" fill="hsl(var(--primary))" />
+            <path d="M20 20 L40 30 L60 25" stroke="hsl(var(--primary))" strokeWidth="0.5" opacity="0.6"/>
           </svg>
+        </div>
+        
+        <div className="absolute top-60 right-1/4 opacity-[0.04]">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            {/* Área de Criatividade */}
+            <circle cx="25" cy="40" r="1.5" fill="hsl(var(--primary))" />
+            <circle cx="45" cy="20" r="1" fill="hsl(var(--primary))" />
+            <circle cx="55" cy="60" r="1.5" fill="hsl(var(--primary))" />
+            <path d="M25 40 Q45 20 55 60" stroke="hsl(var(--primary))" strokeWidth="0.5" opacity="0.6"/>
+          </svg>
+        </div>
+        
+        <div className="absolute bottom-60 left-1/3 opacity-[0.04]">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            {/* Área de Liderança */}
+            <circle cx="40" cy="20" r="2" fill="hsl(var(--primary))" />
+            <circle cx="20" cy="50" r="1" fill="hsl(var(--primary))" />
+            <circle cx="60" cy="50" r="1" fill="hsl(var(--primary))" />
+            <circle cx="40" cy="65" r="1.5" fill="hsl(var(--primary))" />
+            <path d="M40 20 L20 50 M40 20 L60 50 M20 50 L40 65 M60 50 L40 65" stroke="hsl(var(--primary))" strokeWidth="0.5" opacity="0.6"/>
+          </svg>
+        </div>
+
+        {/* Elementos geométricos sutis representando estrutura e organização profissional */}
+        <div className="absolute top-96 right-1/3 opacity-[0.02] transform rotate-12">
+          <div className="w-12 h-12 border border-current rounded"></div>
+        </div>
+        <div className="absolute bottom-80 left-1/2 opacity-[0.015] transform -rotate-12">
+          <div className="w-8 h-8 border border-current rounded-full"></div>
+        </div>
+        <div className="absolute top-40 left-2/3 opacity-[0.02] transform rotate-45">
+          <div className="w-6 h-6 border border-current"></div>
         </div>
       </div>
 
