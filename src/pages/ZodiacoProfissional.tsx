@@ -147,90 +147,65 @@ export default function ZodiacoProfissional() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-accent/5 pt-20 relative overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Zodiac Constellations */}
-        <div className="absolute top-20 left-10 opacity-10 text-primary">
-          <svg width="60" height="60" viewBox="0 0 60 60" className="animate-pulse">
-            <circle cx="10" cy="10" r="1" fill="currentColor" />
-            <circle cx="30" cy="15" r="1.5" fill="currentColor" />
-            <circle cx="50" cy="20" r="1" fill="currentColor" />
-            <circle cx="15" cy="35" r="1" fill="currentColor" />
-            <circle cx="45" cy="40" r="1.5" fill="currentColor" />
-            <circle cx="25" cy="50" r="1" fill="currentColor" />
-            <path d="M10 10 L30 15 L50 20 M15 35 L25 50 L45 40" stroke="currentColor" strokeWidth="0.5" opacity="0.7"/>
+      {/* Background sutil com elementos zodiacais e profissionais elegantes */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Padrão de estrelas minimalista */}
+        <div 
+          className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, hsl(var(--primary)) 1px, transparent 1px),
+                             radial-gradient(circle at 75% 75%, hsl(var(--primary)) 0.8px, transparent 0.8px),
+                             radial-gradient(circle at 50% 10%, hsl(var(--primary)) 0.5px, transparent 0.5px)`,
+            backgroundSize: '140px 140px, 100px 100px, 180px 180px',
+            backgroundPosition: '0 0, 70px 70px, 140px 0'
+          }}
+        />
+        
+        {/* Constelação principal - caminho de crescimento profissional */}
+        <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 opacity-[0.04]">
+          <svg width="400" height="160" viewBox="0 0 400 160" className="text-primary">
+            {/* Estrelas principais formando um caminho ascendente */}
+            <circle cx="50" cy="120" r="2" fill="currentColor" className="animate-pulse" style={{animationDelay: "0s"}} />
+            <circle cx="120" cy="100" r="1.5" fill="currentColor" className="animate-pulse" style={{animationDelay: "0.8s"}} />
+            <circle cx="200" cy="70" r="2" fill="currentColor" className="animate-pulse" style={{animationDelay: "1.6s"}} />
+            <circle cx="280" cy="50" r="1.8" fill="currentColor" className="animate-pulse" style={{animationDelay: "2.4s"}} />
+            <circle cx="350" cy="30" r="2.2" fill="currentColor" className="animate-pulse" style={{animationDelay: "3.2s"}} />
+            
+            {/* Linha conectora representando crescimento */}
+            <path 
+              d="M50 120 Q120 100 200 70 Q280 50 350 30" 
+              stroke="currentColor" 
+              strokeWidth="0.8" 
+              fill="none"
+              strokeDasharray="3,3"
+              opacity="0.3"
+            />
           </svg>
+        </div>
+
+        {/* Símbolos zodiacais estrategicamente posicionados */}
+        <div className="absolute top-20 left-12 text-5xl opacity-[0.02] font-light select-none">♈</div>
+        <div className="absolute top-80 right-16 text-4xl opacity-[0.025] font-light select-none">♌</div>
+        <div className="absolute bottom-40 left-20 text-4xl opacity-[0.02] font-light select-none">♑</div>
+        <div className="absolute bottom-80 right-12 text-5xl opacity-[0.025] font-light select-none">♎</div>
+        
+        {/* Elementos geométricos minimalistas representando estrutura profissional */}
+        <div className="absolute top-60 right-1/3 opacity-[0.03]">
+          <div className="w-8 h-8 border border-current rounded transform rotate-45"></div>
+        </div>
+        <div className="absolute bottom-60 left-1/3 opacity-[0.025]">
+          <div className="w-6 h-6 border border-current rounded-full"></div>
         </div>
         
-        <div className="absolute top-40 right-20 opacity-10 text-secondary">
-          <svg width="80" height="80" viewBox="0 0 80 80" className="animate-pulse" style={{animationDelay: "1s"}}>
-            <circle cx="20" cy="20" r="1.5" fill="currentColor" />
-            <circle cx="40" cy="10" r="1" fill="currentColor" />
-            <circle cx="60" cy="25" r="1.5" fill="currentColor" />
-            <circle cx="30" cy="45" r="1" fill="currentColor" />
-            <circle cx="50" cy="60" r="1.5" fill="currentColor" />
-            <path d="M20 20 L40 10 L60 25 M30 45 L50 60" stroke="currentColor" strokeWidth="0.5" opacity="0.7"/>
-          </svg>
-        </div>
-
-        {/* Professional Icons Scattered */}
-        <div className="absolute top-60 left-20 opacity-8 text-muted-foreground">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-fade-in">
-            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-          </svg>
-        </div>
-
-        <div className="absolute top-80 right-40 opacity-8 text-muted-foreground">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-fade-in" style={{animationDelay: "0.5s"}}>
-            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-            <path d="m22 7-10 5L2 7"/>
-          </svg>
-        </div>
-
-        <div className="absolute bottom-40 left-40 opacity-8 text-muted-foreground">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-fade-in" style={{animationDelay: "1.5s"}}>
-            <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-            <rect x="4" y="20" width="16" height="2" rx="1"/>
-            <rect x="8" y="6" width="8" height="2" rx="1"/>
-            <rect x="8" y="10" width="8" height="2" rx="1"/>
-            <rect x="8" y="14" width="5" height="2" rx="1"/>
-          </svg>
-        </div>
-
-        {/* Zodiac Symbols */}
-        <div className="absolute top-96 right-10 opacity-6 text-primary/50 text-2xl font-serif animate-fade-in" style={{animationDelay: "2s"}}>
-          ♈ ♊ ♌
-        </div>
-        
-        <div className="absolute bottom-60 left-10 opacity-6 text-secondary/50 text-2xl font-serif animate-fade-in" style={{animationDelay: "2.5s"}}>
-          ♏ ♐ ♓
-        </div>
-
-        {/* More Professional Elements */}
-        <div className="absolute top-32 right-60 opacity-8 text-muted-foreground">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-fade-in" style={{animationDelay: "3s"}}>
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12,6 12,12 16,14"/>
-          </svg>
-        </div>
-
-        <div className="absolute bottom-20 right-20 opacity-8 text-muted-foreground">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-fade-in" style={{animationDelay: "3.5s"}}>
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
-        </div>
-
-        {/* Subtle Career Path Lines */}
-        <div className="absolute inset-0 opacity-5">
-          <svg width="100%" height="100%" className="absolute inset-0">
+        {/* Grade sutil de oportunidades */}
+        <div className="absolute inset-0 opacity-[0.008]">
+          <svg width="100%" height="100%">
             <defs>
-              <pattern id="career-grid" width="100" height="100" patternUnits="userSpaceOnUse">
-                <path d="M 100 0 L 0 0 0 100" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-primary"/>
+              <pattern id="opportunity-grid" width="120" height="120" patternUnits="userSpaceOnUse">
+                <circle cx="60" cy="60" r="0.5" fill="hsl(var(--primary))" />
               </pattern>
             </defs>
-            <rect width="100%" height="100%" fill="url(#career-grid)" />
+            <rect width="100%" height="100%" fill="url(#opportunity-grid)" />
           </svg>
         </div>
       </div>
