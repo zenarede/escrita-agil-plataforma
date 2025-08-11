@@ -71,7 +71,7 @@ async function sendPurchaseConfirmationEmail({
     );
 
     const { data, error } = await resend.emails.send({
-      from: 'Escrita Ágil <noreply@escritaagil.com>',
+      from: 'Escrita Ágil <delivered@resend.dev>',
       to: [userEmail],
       subject: `✅ Sua compra do curso "${courseName}" foi confirmada!`,
       html,
