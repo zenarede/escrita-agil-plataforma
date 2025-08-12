@@ -1,10 +1,10 @@
-
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle, BookOpen, Users, Award, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
+import { MyReferralsCard } from '@/components/referrals/MyReferralsCard';
 
 const Welcome = () => {
   const { user, loading } = useAuth();
@@ -97,6 +97,11 @@ const Welcome = () => {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Minhas Indicações */}
+        <div className="mb-12">
+          <MyReferralsCard />
         </div>
 
         {/* Next Steps */}

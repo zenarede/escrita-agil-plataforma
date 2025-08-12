@@ -1,7 +1,7 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import { ReferralFirstLoginModal } from '@/components/referrals/ReferralFirstLoginModal';
 
 // Modo mock para desenvolvimento - REMOVER QUANDO CORRIGIR SUPABASE
 const MOCK_MODE = false;
@@ -206,6 +206,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       signOut
     }}>
       {children}
+      {/* Modal global de indicação no 1º login */}
+      <ReferralFirstLoginModal />
     </AuthContext.Provider>
   );
 };

@@ -284,6 +284,79 @@ export type Database = {
         }
         Relationships: []
       }
+      referral_rewards: {
+        Row: {
+          granted_at: string
+          id: string
+          metadata: Json
+          referrer_email: string
+          reward: Database["public"]["Enums"]["referral_reward_type"]
+          status: Database["public"]["Enums"]["referral_reward_status"]
+          user_id: string | null
+        }
+        Insert: {
+          granted_at?: string
+          id?: string
+          metadata?: Json
+          referrer_email: string
+          reward: Database["public"]["Enums"]["referral_reward_type"]
+          status?: Database["public"]["Enums"]["referral_reward_status"]
+          user_id?: string | null
+        }
+        Update: {
+          granted_at?: string
+          id?: string
+          metadata?: Json
+          referrer_email?: string
+          reward?: Database["public"]["Enums"]["referral_reward_type"]
+          status?: Database["public"]["Enums"]["referral_reward_status"]
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_rewards_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referrals: {
+        Row: {
+          activated_at: string | null
+          created_at: string
+          id: string
+          referee_profile_id: string
+          referrer_email: string
+          status: Database["public"]["Enums"]["referral_status"]
+        }
+        Insert: {
+          activated_at?: string | null
+          created_at?: string
+          id?: string
+          referee_profile_id: string
+          referrer_email: string
+          status?: Database["public"]["Enums"]["referral_status"]
+        }
+        Update: {
+          activated_at?: string | null
+          created_at?: string
+          id?: string
+          referee_profile_id?: string
+          referrer_email?: string
+          status?: Database["public"]["Enums"]["referral_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_referee_profile_id_fkey"
+            columns: ["referee_profile_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_progress: {
         Row: {
           created_at: string
@@ -319,13 +392,40 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      referral_counts: {
+        Row: {
+          activated_count: number | null
+          referrer_email: string | null
+        }
+        Relationships: []
+      }
+      referral_tiers: {
+        Row: {
+          activated_count: number | null
+          referrer_email: string | null
+          tier: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      activate_referral_if_eligible: {
+        Args: { _user_id: string }
+        Returns: undefined
+      }
+      grant_rewards_for_referrer: {
+        Args: { _email: string }
+        Returns: undefined
+      }
+      is_admin: {
+        Args: { uid: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      referral_reward_status: "granted" | "used" | "revoked"
+      referral_reward_type: "videos_badge" | "comunidade_wpp" | "mentoria"
+      referral_status: "pending" | "activated" | "invalid" | "fraud"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -452,6 +552,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      referral_reward_status: ["granted", "used", "revoked"],
+      referral_reward_type: ["videos_badge", "comunidade_wpp", "mentoria"],
+      referral_status: ["pending", "activated", "invalid", "fraud"],
+    },
   },
 } as const
