@@ -49,9 +49,6 @@ export function QuizResult({ result, onUpgrade, onLogin }: QuizResultProps) {
             <CardTitle className="text-2xl font-bold text-primary">
               {result.arquetipo.nome}
             </CardTitle>
-            <Badge className={getConfidenceColor(result.nivelConfianca)}>
-              Confiança: {result.nivelConfianca}
-            </Badge>
           </div>
         </CardHeader>
         <CardContent>
