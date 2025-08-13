@@ -10,6 +10,7 @@ import { useCanAccessCourse } from '@/hooks/useUserAccess';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import { CourseProgress } from './CourseProgress';
 import { VideoProgressButton } from './VideoProgressButton';
+import { useReferrals } from '@/hooks/useReferrals';
 
 interface CourseVideosProps {
   courseSlug: string;
@@ -93,6 +94,7 @@ const CourseVideos: React.FC<CourseVideosProps> = ({ courseSlug, courseTitle }) 
   const { data: videos, isLoading, error } = useCourseVideos(courseSlug);
   const { canAccess } = useCanAccessCourse(courseSlug);
   const { getCourseProgress, isVideoWatched, markVideoAsWatched } = useUserProgress();
+  const { hasVideosBadge } = useReferrals();
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
   const [videoEnded, setVideoEnded] = useState<Set<string>>(new Set());
   
@@ -134,12 +136,9 @@ const CourseVideos: React.FC<CourseVideosProps> = ({ courseSlug, courseTitle }) 
     );
   }
 
-  const handleWatchClick = (videoId: string) => {
-    if (!canAccess) {
-      return; // Não permitir assistir se não tiver acesso
-    }
-    setActiveVideoId(activeVideoId === videoId ? null : videoId);
-  };
+const handleWatchClick = (videoId: string) => {
+  setActiveVideoId(activeVideoId === videoId ? null : videoId);
+};
 
   const handleVideoEnd = (videoId: string) => {
     setVideoEnded(prev => new Set([...prev, videoId]));
@@ -173,12 +172,13 @@ const CourseVideos: React.FC<CourseVideosProps> = ({ courseSlug, courseTitle }) 
       </div>
       
       <div className="grid gap-4">
-        {videos.map((video: CourseVideo, index: number) => {
-          const isVideoActive = activeVideoId === video.id;
-          const isCompleted = isVideoWatched(video.id);
-          const hasVideoEnded = videoEnded.has(video.id);
-          
-          return (
+{videos.map((video: CourseVideo, index: number) => {
+  const isVideoActive = activeVideoId === video.id;
+  const isCompleted = isVideoWatched(video.id);
+  const hasVideoEnded = videoEnded.has(video.id);
+  const allowed = canAccess || (hasVideosBadge && index === 0);
+  
+  return (
             <Card key={video.id} className="hover:shadow-md transition-shadow">
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
@@ -187,6 +187,11 @@ const CourseVideos: React.FC<CourseVideosProps> = ({ courseSlug, courseTitle }) 
                       {index + 1}
                     </Badge>
                     {video.title}
+                    {hasVideosBadge && index === 0 && !canAccess && (
+                      <Badge variant="outline" className="text-xs">
+                        Prévia liberada por indicação
+                      </Badge>
+                    )}
                     {isCompleted && (
                       <Badge variant="default" className="bg-primary text-primary-foreground text-xs">
                         <Check className="h-3 w-3 mr-1" />
@@ -212,7 +217,7 @@ const CourseVideos: React.FC<CourseVideosProps> = ({ courseSlug, courseTitle }) 
                   </div>
                   
                   <div className="flex items-center gap-2">
-                    {canAccess ? (
+                    {allowed ? (
                       <>
                         <Collapsible open={isVideoActive} onOpenChange={() => handleWatchClick(video.id)}>
                           <CollapsibleTrigger asChild>
@@ -229,10 +234,12 @@ const CourseVideos: React.FC<CourseVideosProps> = ({ courseSlug, courseTitle }) 
                             </Button>
                           </CollapsibleTrigger>
                         </Collapsible>
-                        <VideoProgressButton 
-                          videoId={video.id} 
-                          courseSlug={courseSlug}
-                        />
+                        {canAccess && (
+                          <VideoProgressButton 
+                            videoId={video.id} 
+                            courseSlug={courseSlug}
+                          />
+                        )}
                       </>
                     ) : (
                       <div className="flex items-center gap-2 text-muted-foreground">
@@ -243,49 +250,47 @@ const CourseVideos: React.FC<CourseVideosProps> = ({ courseSlug, courseTitle }) 
                   </div>
                 </div>
 
-                {canAccess && (
-                  <Collapsible open={isVideoActive}>
-                    <CollapsibleContent className="space-y-4">
-                      <VideoPlayer
-                        videoUrl={video.video_url}
-                        videoTitle={video.title}
-                        onVideoEnd={() => handleVideoEnd(video.id)}
-                      />
-                      
-                      {hasVideoEnded && !isCompleted && (
-                        <div className="flex justify-center">
-                          <Button
-                            onClick={() => handleMarkAsWatched(video.id)}
-                            className="bg-primary hover:bg-primary/90"
-                          >
-                            <Check className="h-4 w-4 mr-2" />
-                            Marcar como assistido
-                          </Button>
-                        </div>
-                      )}
-                      
-                      {isCompleted && (
-                        <div className="flex justify-center">
-                          <Badge variant="default" className="bg-primary text-primary-foreground">
-                            <Check className="h-4 w-4 mr-2" />
-                            Aula concluída
-                          </Badge>
-                        </div>
-                      )}
-                    </CollapsibleContent>
-                  </Collapsible>
-                )}
+{allowed && (
+  <Collapsible open={isVideoActive}>
+    <CollapsibleContent className="space-y-4">
+      <VideoPlayer
+        videoUrl={video.video_url}
+        videoTitle={video.title}
+        onVideoEnd={() => handleVideoEnd(video.id)}
+      />
+      {canAccess && hasVideoEnded && !isCompleted && (
+        <div className="flex justify-center">
+          <Button
+            onClick={() => handleMarkAsWatched(video.id)}
+            className="bg-primary hover:bg-primary/90"
+          >
+            <Check className="h-4 w-4 mr-2" />
+            Marcar como assistido
+          </Button>
+        </div>
+      )}
+      {canAccess && isCompleted && (
+        <div className="flex justify-center">
+          <Badge variant="default" className="bg-primary text-primary-foreground">
+            <Check className="h-4 w-4 mr-2" />
+            Aula concluída
+          </Badge>
+        </div>
+      )}
+    </CollapsibleContent>
+  </Collapsible>
+)}
 
-                {!canAccess && (
-                  <div className="bg-muted border border-border rounded-lg p-4 text-center">
-                    <p className="text-muted-foreground text-sm mb-2">
-                      🔒 Você precisa adquirir acesso a este curso para assistir os vídeos
-                    </p>
-                    <Button variant="outline" size="sm" className="mt-2">
-                      Adquirir curso
-                    </Button>
-                  </div>
-                )}
+{!allowed && (
+  <div className="bg-muted border border-border rounded-lg p-4 text-center">
+    <p className="text-muted-foreground text-sm mb-2">
+      🔒 Você precisa adquirir acesso a este curso para assistir os vídeos
+    </p>
+    <Button variant="outline" size="sm" className="mt-2">
+      Adquirir curso
+    </Button>
+  </div>
+)}
               </CardContent>
             </Card>
           );

@@ -327,6 +327,7 @@ export type Database = {
           activated_at: string | null
           created_at: string
           id: string
+          referee_email: string | null
           referee_profile_id: string
           referrer_email: string
           status: Database["public"]["Enums"]["referral_status"]
@@ -335,6 +336,7 @@ export type Database = {
           activated_at?: string | null
           created_at?: string
           id?: string
+          referee_email?: string | null
           referee_profile_id: string
           referrer_email: string
           status?: Database["public"]["Enums"]["referral_status"]
@@ -343,6 +345,7 @@ export type Database = {
           activated_at?: string | null
           created_at?: string
           id?: string
+          referee_email?: string | null
           referee_profile_id?: string
           referrer_email?: string
           status?: Database["public"]["Enums"]["referral_status"]

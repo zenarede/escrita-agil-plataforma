@@ -68,7 +68,7 @@ export const ReferralFirstLoginModal = () => {
       await submitReferral(email);
       toast({
         title: "Indicação registrada!",
-        description: "Contaremos sua ativação quando você concluir sua primeira aula ou quiz.",
+        description: "Contaremos sua ativação quando você concluir o quiz.",
       });
       localStorage.setItem("referralPromptDismissed", "1");
       setOpen(false);
