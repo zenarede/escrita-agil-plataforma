@@ -58,10 +58,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, videoTitle, onVideo
     embedUrl = videoUrl;
   }
   
-  console.log('🎥 Video URL:', videoUrl);
-  console.log('🔗 Embed URL:', embedUrl);
-  console.log('📱 Is Vimeo:', isVimeo);
-  console.log('📺 Is YouTube:', isYoutube);
   
   // Simular o fim do vídeo após 10 segundos (para testes)
   React.useEffect(() => {
@@ -100,9 +96,6 @@ const CourseVideos: React.FC<CourseVideosProps> = ({ courseSlug, courseTitle }) 
   
   const courseProgress = getCourseProgress(courseSlug);
 
-  console.log('🎥 CourseVideos - Curso:', courseSlug);
-  console.log('🔐 CourseVideos - Pode acessar:', canAccess);
-  console.log('📹 CourseVideos - Total de vídeos:', videos?.length || 0);
 
   if (isLoading) {
     return (
@@ -120,7 +113,6 @@ const CourseVideos: React.FC<CourseVideosProps> = ({ courseSlug, courseTitle }) 
   }
 
   if (error) {
-    console.error('Error loading course videos:', error);
     return (
       <div className="text-center py-8">
         <p className="text-gray-600">Erro ao carregar os vídeos do curso.</p>
@@ -146,7 +138,6 @@ const handleWatchClick = (videoId: string) => {
 
   const handleMarkAsWatched = async (videoId: string) => {
     await markVideoAsWatched(videoId, courseSlug);
-    console.log('Vídeo marcado como assistido:', videoId);
   };
 
   return (

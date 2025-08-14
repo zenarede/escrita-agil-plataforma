@@ -21,7 +21,7 @@ export const useCourses = () => {
   return useQuery({
     queryKey: ['courses'],
     queryFn: async () => {
-      console.log('Fetching courses...');
+      
       
       const { data, error } = await supabase
         .from('cursos')
@@ -30,11 +30,10 @@ export const useCourses = () => {
         .order('ordem_exibicao', { ascending: true });
       
       if (error) {
-        console.error('Error fetching courses:', error);
         throw error;
       }
       
-      console.log('Fetched courses:', data);
+      
       return data as Course[];
     },
     enabled: true

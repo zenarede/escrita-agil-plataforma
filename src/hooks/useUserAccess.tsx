@@ -47,11 +47,10 @@ export const useUserAccess = () => {
       
       // Modo mock - retorna dados simulados
       if (MOCK_MODE) {
-        console.log('MOCK MODE: Retornando perfil simulado');
         return mockUserProfile;
       }
       
-      console.log('Fetching user profile for access control:', user.id);
+      
       
       const { data, error } = await supabase
         .from('profiles')
@@ -60,11 +59,10 @@ export const useUserAccess = () => {
         .single();
       
       if (error) {
-        console.error('Error fetching user profile:', error);
         throw error;
       }
       
-      console.log('User profile data:', data);
+      
       return data as UserProfile;
     },
     enabled: !!user
@@ -76,29 +74,22 @@ export const useCanAccessCourse = (courseSlug: string) => {
   
   const canAccess = React.useMemo(() => {
     if (isLoading || !userProfile) {
-      console.log('🚫 Acesso negado: Loading ou sem perfil de usuário');
       return false;
     }
     
-    console.log('🔍 Verificando acesso ao curso:', courseSlug);
-    console.log('👤 Status do usuário:', userProfile.status);
-    console.log('📚 Cursos liberados:', userProfile.cursos_liberados);
     
     // ADMIN tem acesso a tudo
     if (userProfile.status === 'admin') {
-      console.log('🔓 ADMIN: Acesso total liberado!');
       return true;
     }
     
     // Usuários com status "ativo" podem acessar cursos liberados
     if (userProfile.status === 'ativo' && userProfile.cursos_liberados) {
       const hasAccess = userProfile.cursos_liberados.includes(courseSlug);
-      console.log(`${hasAccess ? '✅' : '❌'} Status ativo: ${hasAccess ? 'Tem' : 'Não tem'} acesso ao curso`);
       return hasAccess;
     }
     
     // Usuários gratuitos não podem acessar cursos pagos
-    console.log('🚫 Status gratuito/pendente: Sem acesso a cursos');
     return false;
   }, [userProfile, courseSlug, isLoading]);
   

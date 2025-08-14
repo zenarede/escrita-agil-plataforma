@@ -29,7 +29,6 @@ const Purchase = () => {
         .single();
 
       if (cursoError || !curso) {
-        console.error('Curso não encontrado:', cursoError);
         navigate('/cursos');
         setLoading(false);
         return;
@@ -42,9 +41,6 @@ const Purchase = () => {
         .eq('course_slug', courseSlug)
         .order('order_index');
 
-      if (videosError) {
-        console.error('Erro ao buscar vídeos:', videosError);
-      }
 
       const courseData = {
         slug: courseSlug,
@@ -55,7 +51,7 @@ const Purchase = () => {
         totalDuration: videos?.reduce((sum, video) => sum + (video.duration_minutes || 0), 0) || 0
       };
       
-      console.log('Dados do curso carregados:', courseData);
+      
       setCourseData(courseData);
       setLoading(false);
     };
@@ -94,7 +90,6 @@ const Purchase = () => {
       });
 
       if (error) {
-        console.error('Payment error:', error);
         alert('Erro ao processar pagamento. Tente novamente.');
         return;
       }
@@ -104,7 +99,6 @@ const Purchase = () => {
         window.open(data.url, '_blank');
       }
     } catch (error) {
-      console.error('Error:', error);
       alert('Erro ao processar pagamento. Tente novamente.');
     } finally {
       setLoading(false);

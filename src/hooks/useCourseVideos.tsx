@@ -19,10 +19,7 @@ export const useCourseVideos = (courseSlug?: string) => {
   return useQuery({
     queryKey: ['course-videos', courseSlug],
     queryFn: async () => {
-      console.log('🎥 Fetching course videos for courseSlug:', courseSlug);
-      
       if (!courseSlug) {
-        console.log('❌ No courseSlug provided, returning empty array');
         return [];
       }
       
@@ -33,12 +30,9 @@ export const useCourseVideos = (courseSlug?: string) => {
         .order('order_index', { ascending: true });
       
       if (error) {
-        console.error('❌ Error fetching course videos:', error);
         throw error;
       }
       
-      console.log('✅ Fetched course videos:', data);
-      console.log('📊 Videos count:', data?.length || 0);
       return data as CourseVideo[];
     },
     enabled: !!courseSlug

@@ -16,12 +16,6 @@ const CourseDetails = () => {
   const { canAccess, userStatus, isLoading: accessLoading } = useCanAccessCourse(courseSlug || '');
   const { data: courses, isLoading: coursesLoading } = useCourses();
 
-  // Debug logs
-  console.log('🔍 CourseDetails - Course Slug:', courseSlug);
-  console.log('👤 CourseDetails - User:', user);
-  console.log('🔐 CourseDetails - Can Access:', canAccess);
-  console.log('📊 CourseDetails - User Status:', userStatus);
-  console.log('⏳ CourseDetails - Access Loading:', accessLoading);
 
   // Find course in database
   const course = courses?.find(c => c.slug === courseSlug);

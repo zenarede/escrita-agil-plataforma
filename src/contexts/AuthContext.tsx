@@ -56,26 +56,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     if (MOCK_MODE) {
       // Modo mock - simula usuário logado
-      console.log('MOCK MODE: Simulando usuário logado');
       setUser(mockUser);
       setSession(mockSession);
       setLoading(false);
       return;
     }
 
-    console.log('Setting up auth state listener');
+    
     
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        console.log('Auth state changed:', event, session);
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
         
         // Handle successful login - defer database calls to prevent deadlock
         if (event === 'SIGNED_IN' && session?.user) {
-          console.log('User signed in');
           
           // Use setTimeout to defer Supabase calls and prevent deadlock
           setTimeout(() => {
@@ -87,7 +84,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('Initial session check:', session);
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
@@ -98,7 +94,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const checkProfileAndRedirect = async (user: any) => {
     try {
-      console.log('Checking profile completion for user:', user.id);
       
       const { data: profile } = await supabase
         .from('profiles')
@@ -120,21 +115,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Redirect logic for successful login
       if (window.location.pathname === '/login' || window.location.pathname === '/register' || returnTo) {
         if (!isProfileComplete) {
-          console.log('Profile incomplete, redirecting to profile setup');
           localStorage.setItem('afterProfileSetup', returnTo || '/dashboard');
           window.location.href = '/profile-setup';
         } else {
-          console.log('Profile complete, redirecting to:', returnTo || '/dashboard');
           window.location.href = returnTo || '/dashboard';
         }
       }
     } catch (error) {
-      console.error('Error checking profile:', error);
+      // Error handling for profile check
     }
   };
 
   const signInWithGoogle = async (returnTo?: string) => {
-    console.log('Initiating Google sign in');
     
     // Store the return URL for after login
     if (returnTo) {
@@ -149,11 +141,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
     
     if (error) {
-      console.error('Error signing in with Google:', error);
       throw error;
     }
     
-    console.log('Google sign in initiated:', data);
+    
   };
 
   const signInWithEmail = async (email: string, password: string) => {
@@ -184,11 +175,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
-    console.log('Signing out');
     const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Error signing out:', error);
-    } else {
+    if (!error) {
       setSession(null);
       setUser(null);
       window.location.href = '/';
